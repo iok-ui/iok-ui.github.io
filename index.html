@@ -45,7 +45,7 @@
   <main>
     <div id="logo">i</div>
 
-    <div class="name">Iok-ui Tiunn</div>
+    <div class="name">Io̍k-uí Tiunn</div>
 
     <div class="tagline">
       Brain networks · Data science · Neuroimaging · Software
@@ -53,34 +53,36 @@
   </main>
 
   <script>
-    const logo = document.getElementById("logo");
+  const logo = document.getElementById("logo");
 
-    const sequence = [
-      "i",
-      "io",
-      "iok",
-      "iok-",
-      "iok-u",
-      "iok-ui",
-      "iok-u",
-      "iok-",
-      "iok",
-      "io",
-      "i"
-    ];
+  const sequence = [
+    { text: "i", delay: 300 },
+    { text: "io", delay: 160 },
+    { text: "iok", delay: 160 },
+    { text: "iok-", delay: 160 },
+    { text: "iok-u", delay: 160 },
+    { text: "iok-uí", delay: 1000 },
+    { text: "ok-uí", delay: 120 },
+    { text: "k-uí", delay: 120 },
+    { text: "-uí", delay: 120 },
+    { text: "uí", delay: 120 },
+    { text: "í", delay: 120 }
+  ];
 
-    let index = 0;
+  let index = 0;
 
-    function animateLogo() {
-      logo.textContent = sequence[index];
-      index++;
+  function animateLogo() {
+    logo.textContent = sequence[index].text;
 
-      if (index < sequence.length) {
-        setTimeout(animateLogo, 160);
-      }
+    const delay = sequence[index].delay;
+    index++;
+
+    if (index < sequence.length) {
+      setTimeout(animateLogo, delay);
     }
+  }
 
-    setTimeout(animateLogo, 500);
-  </script>
+  setTimeout(animateLogo, 500);
+</script>
 </body>
 </html>
