@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -53,36 +54,37 @@
   </main>
 
   <script>
-  const logo = document.getElementById("logo");
+    const logo = document.getElementById("logo");
 
-  const sequence = [
-    { text: "i", delay: 300 },
-    { text: "io", delay: 160 },
-    { text: "iok", delay: 160 },
-    { text: "iok-", delay: 160 },
-    { text: "iok-u", delay: 160 },
-    { text: "iok-uí", delay: 1000 },
-    { text: "ok-uí", delay: 120 },
-    { text: "k-uí", delay: 120 },
-    { text: "-uí", delay: 120 },
-    { text: "uí", delay: 120 },
-    { text: "í", delay: 120 }
-  ];
+    const sequence = [
+      { text: "i", delay: 300 },
+      { text: "io", delay: 160 },
+      { text: "iok", delay: 160 },
+      { text: "iok-", delay: 160 },
+      { text: "iok-u", delay: 160 },
+      { text: "iok-uí", delay: 1000 },
+      { text: "ok-uí", delay: 120 },
+      { text: "k-uí", delay: 120 },
+      { text: "-uí", delay: 120 },
+      { text: "uí", delay: 120 },
+      { text: "í", delay: 120 }
+    ];
 
-  let index = 0;
+    let index = 0;
 
-  function animateLogo() {
-    logo.textContent = sequence[index].text;
+    function animateLogo() {
+      logo.textContent = sequence[index].text;
 
-    const delay = sequence[index].delay;
-    index++;
+      const delay = sequence[index].delay;
+      index++;
 
-    if (index < sequence.length) {
-      setTimeout(animateLogo, delay);
+      if (index < sequence.length) {
+        setTimeout(animateLogo, delay);
+      }
     }
-  }
 
-  setTimeout(animateLogo, 500);
-</script>
+    setTimeout(animateLogo, 500);
+  </script>
 </body>
+
 </html>
