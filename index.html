@@ -1,9 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Iok-ui</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iok-ui Tiunn</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ffffff;
+      color: #111111;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    main {
+      text-align: center;
+    }
+
+    #logo {
+      font-size: 6rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      margin-bottom: 2rem;
+    }
+
+    .name {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: #555555;
+      line-height: 1.6;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Hello Iok-ui</h1>
+  <main>
+    <div id="logo">i</div>
+
+    <div class="name">Iok-ui Tiunn</div>
+
+    <div class="tagline">
+      Brain networks · Data science · Neuroimaging · Software
+    </div>
+  </main>
+
+  <script>
+    const logo = document.getElementById("logo");
+
+    const sequence = [
+      "i",
+      "io",
+      "iok",
+      "iok-",
+      "iok-u",
+      "iok-ui",
+      "iok-u",
+      "iok-",
+      "iok",
+      "io",
+      "i"
+    ];
+
+    let index = 0;
+
+    function animateLogo() {
+      logo.textContent = sequence[index];
+      index++;
+
+      if (index < sequence.length) {
+        setTimeout(animateLogo, 160);
+      }
+    }
+
+    setTimeout(animateLogo, 500);
+  </script>
 </body>
 </html>
