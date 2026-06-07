@@ -11,9 +11,19 @@
       background: #ffffff;
       color: #111111;
       font-family: Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: 0.45;
     }
 
     .landing {
+      position: relative;
+      z-index: 1;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -22,6 +32,7 @@
 
     main {
       text-align: center;
+      padding: 2rem;
     }
 
     #logo {
@@ -40,23 +51,33 @@
       font-size: 1rem;
       color: #555555;
       line-height: 1.6;
+      margin-bottom: 2rem;
     }
 
-    .link {
-      display: inline-block;
-      margin-top: 4rem;
-      font-size: 0.85rem;
-      color: #777777;
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+    }
+
+    .links a {
+      color: #666666;
       text-decoration: none;
+      border-bottom: 1px solid transparent;
     }
 
-    .link:hover {
+    .links a:hover {
       color: #111111;
+      border-bottom: 1px solid #111111;
     }
   </style>
 </head>
 
 <body>
+  <canvas id="network"></canvas>
+
   <section class="landing">
     <main>
       <div id="logo">i</div>
@@ -67,6 +88,12 @@
         Software · Brain networks · Data science · Neuroimaging
       </div>
 
+      <div class="links">
+        <a href="mailto:iok8ui2tiunn1@gmail.com">Email</a>
+        <a href="https://wa.me/46736911835">WhatsApp</a>
+        <a href="https://scholar.google.com/citations?user=HlNG03YAAAAJ&hl=en" target="_blank">Google Scholar</a>
+        <a href="/calendar/">Calendar</a>
+      </div>
     </main>
   </section>
 
@@ -100,6 +127,67 @@
     }
 
     setTimeout(animateLogo, 500);
+
+    const canvas = document.getElementById("network");
+    const ctx = canvas.getContext("2d");
+
+    let width;
+    let height;
+    let nodes = [];
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+
+      nodes = Array.from({ length: 24 }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22
+      }));
+    }
+
+    function drawNetwork() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (const node of nodes) {
+        node.x += node.vx;
+        node.y += node.vy;
+
+        if (node.x < 0 || node.x > width) node.vx *= -1;
+        if (node.y < 0 || node.y > height) node.vy *= -1;
+      }
+
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 170) {
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.strokeStyle = "rgba(0, 0, 0, 0.2)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (const node of nodes) {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 2.3, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.35)";
+        ctx.fill();
+      }
+
+      requestAnimationFrame(drawNetwork);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+    drawNetwork();
   </script>
 </body>
 </html>
