@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Iok-ui Tiunn</title>
+  <title>Io̍k-uí Tiunn</title>
 
   <style>
     body {
       margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       background: #ffffff;
       color: #111111;
       font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .landing {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     main {
@@ -39,19 +41,35 @@
       color: #555555;
       line-height: 1.6;
     }
+
+    .link {
+      display: inline-block;
+      margin-top: 4rem;
+      font-size: 0.85rem;
+      color: #777777;
+      text-decoration: none;
+    }
+
+    .link:hover {
+      color: #111111;
+    }
   </style>
 </head>
 
 <body>
-  <main>
-    <div id="logo">i</div>
+  <section class="landing">
+    <main>
+      <div id="logo">i</div>
 
-    <div class="name">Io̍k-uí Tiunn</div>
+      <div class="name">Io̍k-uí Tiunn</div>
 
-    <div class="tagline">
-      Brain networks · Data science · Neuroimaging · Software
-    </div>
-  </main>
+      <div class="tagline">
+        Brain networks · Data science · Neuroimaging · Software
+      </div>
+
+      <a class="link" href="/calendar/">Working calendar ↓</a>
+    </main>
+  </section>
 
   <script>
     const logo = document.getElementById("logo");
@@ -74,7 +92,6 @@
 
     function animateLogo() {
       logo.textContent = sequence[index].text;
-
       const delay = sequence[index].delay;
       index++;
 
@@ -86,5 +103,4 @@
     setTimeout(animateLogo, 500);
   </script>
 </body>
-
 </html>

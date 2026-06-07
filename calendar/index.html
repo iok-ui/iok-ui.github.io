@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Working Calendar | Io̍k-uí Tiunn</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #ffffff;
+      color: #111111;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 6rem 8vw;
+      box-sizing: border-box;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 4rem;
+      font-size: 0.9rem;
+      color: #777777;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #111111;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-note {
+      color: #666666;
+      margin-bottom: 2rem;
+      max-width: 650px;
+      line-height: 1.6;
+    }
+
+    .calendar-frame {
+      width: 100%;
+      height: 650px;
+      border: 1px solid #dddddd;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="page">
+    <a class="back-link" href="/">← Home</a>
+
+    <h1 class="section-title">Working Calendar</h1>
+
+    <p class="section-note">
+      A simple public overview of my working location, travel, conferences, holidays, sick leave, and personal leave.
+    </p>
+
+    <iframe
+      class="calendar-frame"
+      src="https://calendar.google.com/calendar/embed?src=b364b5f05bcc5460d1970f4621ea7f5b0cab28d5782afc7e88d3cfe89e704516%40group.calendar.google.com&ctz=Europe%2FStockholm"
+      frameborder="0"
+      scrolling="no">
+    </iframe>
+  </section>
+</body>
+</html>
