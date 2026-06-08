@@ -1,0 +1,28 @@
+name: Update calendar
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-calendar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Fetch Google Calendar
+        run: node scripts/fetch-calendar.js
+        env:
+          GOOGLE_CALENDAR_ICAL_URL: ${{ secrets.GOOGLE_CALENDAR_ICAL_URL }}
+
+      - name: Commit updated calendar
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update calendar data
+          file_pattern: content/calendar.json
