@@ -30,8 +30,8 @@ h1 {
 }
 
 .controls {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 70px 1fr 70px;
   align-items: center;
   margin-bottom: 2rem;
 }
@@ -42,32 +42,38 @@ button {
   border-radius: 999px;
   padding: 0.5rem 1rem;
   font-size: 1rem;
+  cursor: pointer;
 }
 
 .month-title {
+  text-align: center;
   font-size: 1.4rem;
 }
 
 .calendar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(0, 1fr));
   border-top: 1px solid #eee;
   border-left: 1px solid #eee;
+  width: 100%;
 }
 
 .day-name,
 .day {
+  min-width: 0;
   border-right: 1px solid #eee;
   border-bottom: 1px solid #eee;
   padding: 0.7rem;
-  min-height: 110px;
   box-sizing: border-box;
 }
 
 .day-name {
-  min-height: auto;
   color: #777;
   font-size: 0.85rem;
+}
+
+.day {
+  min-height: 110px;
 }
 
 .date {
@@ -77,35 +83,89 @@ button {
 }
 
 .event {
+  max-width: 100%;
   font-size: 0.75rem;
   color: white;
   border-radius: 6px;
   padding: 0.25rem 0.4rem;
   margin-bottom: 0.25rem;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
-.office     { background: #2E7D32; }   /* green */
-.wfh        { background: #9E9E9E; }   /* grey */
-.leave      { background: #F2994A; }   /* orange */
-.holiday    { background: #FC8EAC; }   /* flamingo pink */
-.conference { background: #4285F4; }   /* blue */
-.other      { background: #999999; }
+.office { background: #2E7D32; }
+.wfh { background: #9E9E9E; }
+.leave { background: #F2994A; }
+.holiday { background: #FC8EAC; }
+.conference { background: #4285F4; }
+.other { background: #999999; }
+
+.summary {
+  margin-top: 4rem;
+}
+
+.summary h2 {
+  font-weight: 400;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.summary-title {
+  font-size: 1rem;
+}
+
+.summary-date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
 
 @media (max-width: 700px) {
   .container {
     padding: 3rem 1rem;
   }
 
+  h1 {
+    font-size: 2.4rem;
+  }
+
+  .controls {
+    grid-template-columns: 56px 1fr 56px;
+  }
+
+  .month-title {
+    font-size: 1.35rem;
+  }
+
+  .day-name,
   .day {
-    min-height: 85px;
     padding: 0.35rem;
   }
 
+  .day {
+    min-height: 82px;
+  }
+
   .event {
-    font-size: 0.65rem;
+    font-size: 0.62rem;
+    padding: 0.18rem 0.28rem;
   }
 }
 </style>
@@ -124,6 +184,11 @@ button {
   </div>
 
   <div class="calendar" id="calendar"></div>
+
+  <section class="summary">
+    <h2>Upcoming Highlights</h2>
+    <div id="summary"></div>
+  </section>
 </div>
 
 <script>
@@ -139,12 +204,21 @@ function formatMonth(date) {
   });
 }
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+}
+
 function dateToString(date) {
   return date.toISOString().split("T")[0];
 }
 
 function isEventOnDate(event, dateString) {
-  return event.start <= dateString && dateString < event.end;
+  return event.start <= dateString && dateString <= event.end;
 }
 
 function renderCalendar() {
@@ -182,7 +256,6 @@ function renderCalendar() {
 
     const cell = document.createElement("div");
     cell.className = "day";
-
     cell.innerHTML = `<div class="date">${day}</div>`;
 
     events
@@ -198,6 +271,40 @@ function renderCalendar() {
   }
 }
 
+function renderSummary() {
+  const summary = document.getElementById("summary");
+  const today = dateToString(new Date());
+
+  const futureHighlights = events
+    .filter(event =>
+      event.end >= today &&
+      (event.type === "holiday" || event.type === "conference")
+    )
+    .sort((a, b) => new Date(a.start) - new Date(b.start));
+
+  summary.innerHTML = "";
+
+  if (futureHighlights.length === 0) {
+    summary.innerHTML = `<div class="summary-date">No upcoming holidays or conferences.</div>`;
+    return;
+  }
+
+  futureHighlights.forEach(event => {
+    const div = document.createElement("div");
+    div.className = "summary-item";
+
+    div.innerHTML = `
+      <div class="dot ${event.type}"></div>
+      <div>
+        <div class="summary-title">${event.title}</div>
+        <div class="summary-date">${formatDate(event.start)} – ${formatDate(event.end)}</div>
+      </div>
+    `;
+
+    summary.appendChild(div);
+  });
+}
+
 function changeMonth(step) {
   currentDate.setMonth(currentDate.getMonth() + step);
   renderCalendar();
@@ -208,6 +315,7 @@ fetch("/content/calendar.json")
   .then(data => {
     events = data;
     renderCalendar();
+    renderSummary();
   });
 </script>
 </body>
