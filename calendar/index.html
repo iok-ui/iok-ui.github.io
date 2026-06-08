@@ -176,6 +176,43 @@ button {
     gap: 2rem;
   }
 }
+.event {
+  cursor: pointer;
+}
+
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.popup-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 18px;
+  padding: 2rem;
+  max-width: 320px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.popup-title {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.popup-date {
+  color: #666;
+}
+
+.popup-close {
+  margin-top: 2rem;
+  color: #777;
+  cursor: pointer;
+}
 </style>
 </head>
 
@@ -299,6 +336,7 @@ function renderCalendar() {
         const eventDiv = document.createElement("div");
         eventDiv.className = `event ${event.type || "other"}`;
         eventDiv.textContent = event.title;
+        eventDiv.onclick = () => openPopup(event);
         cell.appendChild(eventDiv);
       });
 
@@ -345,6 +383,16 @@ function changeMonth(step) {
   renderCalendar();
 }
 
+function openPopup(event) {
+  document.getElementById("popupTitle").textContent = event.title;
+  document.getElementById("popupDate").textContent = displayDateRange(event);
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+}
+
 fetch("/content/calendar.json")
   .then(response => response.json())
   .then(data => {
@@ -354,5 +402,12 @@ fetch("/content/calendar.json")
     renderSummary("holiday", "holidaySummary", "No upcoming holidays.");
   });
 </script>
+<div class="popup" id="popup" onclick="closePopup()">
+  <div class="popup-card" onclick="event.stopPropagation()">
+    <div class="popup-title" id="popupTitle"></div>
+    <div class="popup-date" id="popupDate"></div>
+    <div class="popup-close" onclick="closePopup()">Close</div>
+  </div>
+</div>
 </body>
 </html>
