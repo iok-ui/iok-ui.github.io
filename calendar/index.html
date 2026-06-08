@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Working Calendar</title>
 
 <style>
@@ -14,7 +14,7 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 4rem 2rem;
 }
@@ -24,117 +24,190 @@ body {
   text-decoration: none;
 }
 
-.back:hover {
-  color: #111;
-}
-
 h1 {
   font-weight: 400;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
+  margin: 3rem 0 2rem;
 }
 
-.event {
+.controls {
   display: flex;
-  gap: 1rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid #eee;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
 }
 
-.color {
-  width: 12px;
-  height: 12px;
-  margin-top: 6px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.office { background: #4A90E2; }
-.wfh { background: #27AE60; }
-.leave { background: #E74C3C; }
-.holiday { background: #F4D03F; }
-
-.title {
+button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
   font-size: 1rem;
 }
 
+.month-title {
+  font-size: 1.4rem;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+}
+
+.day-name,
+.day {
+  border-right: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  padding: 0.7rem;
+  min-height: 110px;
+  box-sizing: border-box;
+}
+
+.day-name {
+  min-height: auto;
+  color: #777;
+  font-size: 0.85rem;
+}
+
 .date {
-  color: #666;
-  font-size: 0.9rem;
-  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.event {
+  font-size: 0.75rem;
+  color: white;
+  border-radius: 6px;
+  padding: 0.25rem 0.4rem;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.office { background: #2E7D32; }   /* green */
+.wfh { background: #9E9E9E; }      /* grey */
+.leave { background: #F2994A; }    /* orange */
+.holiday { background: #FC8EAC; }  /* flamingo pink */
+.other { background: #999999; }
+
+@media (max-width: 700px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+
+  .day {
+    min-height: 85px;
+    padding: 0.35rem;
+  }
+
+  .event {
+    font-size: 0.65rem;
+  }
 }
 </style>
 </head>
 
 <body>
-
 <div class="container">
+  <a class="back" href="/">← Home</a>
 
-<a class="back" href="/">← Home</a>
+  <h1>Working Calendar</h1>
 
-<h1>Working Calendar</h1>
+  <div class="controls">
+    <button onclick="changeMonth(-1)">←</button>
+    <div class="month-title" id="monthTitle"></div>
+    <button onclick="changeMonth(1)">→</button>
+  </div>
 
-<div id="events">
-Loading...
-</div>
-
+  <div class="calendar" id="calendar"></div>
 </div>
 
 <script>
+let events = [];
+let currentDate = new Date();
 
-function formatDate(dateString) {
-  const date = new Date(dateString);
+const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+function formatMonth(date) {
   return date.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
+    month: "long",
     year: "numeric"
   });
 }
 
-fetch("/content/calendar.json")
-  .then(response => response.json())
-  .then(events => {
+function dateToString(date) {
+  return date.toISOString().split("T")[0];
+}
 
-    events.sort((a,b) =>
-      new Date(b.start) - new Date(a.start)
-    );
+function isEventOnDate(event, dateString) {
+  return event.start <= dateString && dateString < event.end;
+}
 
-    const container =
-      document.getElementById("events");
+function renderCalendar() {
+  const calendar = document.getElementById("calendar");
+  const monthTitle = document.getElementById("monthTitle");
 
-    container.innerHTML = "";
+  calendar.innerHTML = "";
+  monthTitle.textContent = formatMonth(currentDate);
 
-    events.forEach(event => {
-
-      const div =
-        document.createElement("div");
-
-      div.className = "event";
-
-      div.innerHTML = `
-        <div class="color ${event.type}"></div>
-
-        <div>
-          <div class="title">
-            ${event.title}
-          </div>
-
-          <div class="date">
-            ${formatDate(event.start)}
-            –
-            ${formatDate(event.end)}
-          </div>
-        </div>
-      `;
-
-      container.appendChild(div);
-
-    });
-
+  dayNames.forEach(day => {
+    const div = document.createElement("div");
+    div.className = "day-name";
+    div.textContent = day;
+    calendar.appendChild(div);
   });
 
-</script>
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
 
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+
+  let startOffset = firstDay.getDay() - 1;
+  if (startOffset < 0) startOffset = 6;
+
+  for (let i = 0; i < startOffset; i++) {
+    const empty = document.createElement("div");
+    empty.className = "day";
+    calendar.appendChild(empty);
+  }
+
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const date = new Date(year, month, day);
+    const dateString = dateToString(date);
+
+    const cell = document.createElement("div");
+    cell.className = "day";
+
+    cell.innerHTML = `<div class="date">${day}</div>`;
+
+    events
+      .filter(event => isEventOnDate(event, dateString))
+      .forEach(event => {
+        const eventDiv = document.createElement("div");
+        eventDiv.className = `event ${event.type || "other"}`;
+        eventDiv.textContent = event.title;
+        cell.appendChild(eventDiv);
+      });
+
+    calendar.appendChild(cell);
+  }
+}
+
+function changeMonth(step) {
+  currentDate.setMonth(currentDate.getMonth() + step);
+  renderCalendar();
+}
+
+fetch("/content/calendar.json")
+  .then(response => response.json())
+  .then(data => {
+    events = data;
+    renderCalendar();
+  });
+</script>
 </body>
 </html>
