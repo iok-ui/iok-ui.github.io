@@ -9,6 +9,7 @@ if (!ICAL_URL) {
 function getType(title) {
   const text = title.toLowerCase();
 
+  if (text.includes("conference")) return "conference";
   if (text.includes("office")) return "office";
   if (text.includes("wfh")) return "wfh";
   if (text.includes("holiday")) return "holiday";
