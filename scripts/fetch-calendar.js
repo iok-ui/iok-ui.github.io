@@ -11,10 +11,15 @@ function getType(title) {
 
   if (text.includes("office")) return "office";
   if (text.includes("wfh")) return "wfh";
-  if (text.includes("conference")) return "conference";
   if (text.includes("holiday")) return "holiday";
-  if (text.includes("sick")) return "sick";
-  if (text.includes("personal")) return "personal";
+
+  if (
+    text.includes("leave") ||
+    text.includes("sick") ||
+    text.includes("personal")
+  ) {
+    return "leave";
+  }
 
   return "other";
 }
