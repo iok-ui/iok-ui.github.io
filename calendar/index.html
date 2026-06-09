@@ -95,6 +95,20 @@ button {
   box-sizing: border-box;
 }
 
+.event.past {
+  opacity: 0.28;
+}
+
+.day.today {
+  background: #f7f7f7;
+  box-shadow: inset 0 0 0 2px #111;
+}
+
+.day.today .date {
+  color: #111;
+  font-weight: 600;
+}
+
 .office { background: #2E7D32; }
 .wfh { background: #9E9E9E; }
 .leave { background: #F2994A; }
@@ -340,6 +354,13 @@ function renderCalendar() {
 
     const cell = document.createElement("div");
     cell.className = "day";
+
+    const today = dateToString(new Date());
+
+    if (dateString === today) {
+      cell.classList.add("today");
+    }
+
     cell.innerHTML = `<div class="date">${day}</div>`;
 
     events
@@ -347,6 +368,13 @@ function renderCalendar() {
       .forEach(event => {
         const eventDiv = document.createElement("div");
         eventDiv.className = `event ${event.type || "other"}`;
+
+        const today = dateToString(new Date());
+
+        if (dateString < today) {
+          eventDiv.classList.add("past");
+        }
+
         eventDiv.textContent = event.title;
         eventDiv.onclick = () => openPopup(event);
         cell.appendChild(eventDiv);
