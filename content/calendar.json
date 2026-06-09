@@ -1,5 +1,59 @@
 [
   {
+    "title": "Office",
+    "start": "2026-11-23",
+    "end": "2026-11-28",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-09-14",
+    "end": "2026-09-19",
+    "type": "office"
+  },
+  {
+    "title": "Holiday (Christmas)",
+    "start": "2026-12-24",
+    "end": "2026-12-26",
+    "type": "holiday"
+  },
+  {
+    "title": "Holiday",
+    "start": "2026-10-12",
+    "end": "2026-10-13",
+    "type": "holiday"
+  },
+  {
+    "title": "Office",
+    "start": "2026-12-07",
+    "end": "2026-12-12",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-11-09",
+    "end": "2026-11-14",
+    "type": "office"
+  },
+  {
+    "title": "Holiday",
+    "start": "2026-12-28",
+    "end": "2026-12-31",
+    "type": "holiday"
+  },
+  {
+    "title": "Office",
+    "start": "2026-09-24",
+    "end": "2026-09-26",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-05-18",
+    "end": "2026-05-23",
+    "type": "office"
+  },
+  {
     "title": "Office (first day of KI employment)",
     "start": "2026-04-07",
     "end": "2026-04-08",
@@ -7,15 +61,15 @@
   },
   {
     "title": "Office",
-    "start": "2026-09-28",
-    "end": "2026-10-03",
+    "start": "2026-05-15",
+    "end": "2026-05-16",
     "type": "office"
   },
   {
-    "title": "Holiday",
-    "start": "2026-07-06",
-    "end": "2026-07-11",
-    "type": "holiday"
+    "title": "Office",
+    "start": "2026-05-05",
+    "end": "2026-05-09",
+    "type": "office"
   },
   {
     "title": "Conference (Neurotech school)",
@@ -24,16 +78,16 @@
     "type": "conference"
   },
   {
-    "title": "Office",
-    "start": "2026-09-07",
-    "end": "2026-09-12",
-    "type": "office"
+    "title": "Leave (sick)",
+    "start": "2026-05-25",
+    "end": "2026-05-26",
+    "type": "leave"
   },
   {
-    "title": "Holiday",
-    "start": "2026-07-13",
-    "end": "2026-07-18",
-    "type": "holiday"
+    "title": "Office",
+    "start": "2026-08-03",
+    "end": "2026-08-08",
+    "type": "office"
   },
   {
     "title": "Holiday (Midsommarafton)",
@@ -42,33 +96,87 @@
     "type": "holiday"
   },
   {
-    "title": "Holiday (labor day)",
-    "start": "2026-05-01",
-    "end": "2026-05-02",
-    "type": "holiday"
-  },
-  {
-    "title": "Office (GU)",
-    "start": "2026-04-08",
-    "end": "2026-04-12",
+    "title": "Office",
+    "start": "2026-07-27",
+    "end": "2026-08-01",
     "type": "office"
   },
   {
     "title": "Office",
-    "start": "2026-11-02",
-    "end": "2026-11-07",
+    "start": "2026-10-05",
+    "end": "2026-10-08",
     "type": "office"
   },
   {
-    "title": "Holiday (Ascension Day)",
-    "start": "2026-05-14",
-    "end": "2026-05-15",
+    "title": "Office",
+    "start": "2026-06-29",
+    "end": "2026-07-04",
+    "type": "office"
+  },
+  {
+    "title": "Holiday (New Year's eve)",
+    "start": "2026-12-31",
+    "end": "2027-01-02",
     "type": "holiday"
   },
   {
     "title": "Office",
-    "start": "2026-10-19",
-    "end": "2026-10-21",
+    "start": "2026-09-28",
+    "end": "2026-10-03",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-05-26",
+    "end": "2026-05-30",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-08-10",
+    "end": "2026-08-15",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-08-31",
+    "end": "2026-09-05",
+    "type": "office"
+  },
+  {
+    "title": "Conference (NEMES)",
+    "start": "2026-09-21",
+    "end": "2026-09-24",
+    "type": "conference"
+  },
+  {
+    "title": "Office",
+    "start": "2026-11-16",
+    "end": "2026-11-21",
+    "type": "office"
+  },
+  {
+    "title": "Holiday",
+    "start": "2026-12-21",
+    "end": "2026-12-24",
+    "type": "holiday"
+  },
+  {
+    "title": "Office",
+    "start": "2026-10-13",
+    "end": "2026-10-17",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-06-22",
+    "end": "2026-06-27",
+    "type": "office"
+  },
+  {
+    "title": "Office",
+    "start": "2026-11-30",
+    "end": "2026-12-05",
     "type": "office"
   },
   {
@@ -85,21 +193,39 @@
   },
   {
     "title": "Office",
-    "start": "2026-10-26",
-    "end": "2026-10-31",
+    "start": "2026-06-08",
+    "end": "2026-06-12",
     "type": "office"
   },
   {
     "title": "Office",
-    "start": "2026-05-05",
-    "end": "2026-05-09",
+    "start": "2026-11-02",
+    "end": "2026-11-07",
     "type": "office"
   },
   {
-    "title": "Office",
-    "start": "2026-11-09",
-    "end": "2026-11-14",
+    "title": "Holiday (labor day)",
+    "start": "2026-05-01",
+    "end": "2026-05-02",
+    "type": "holiday"
+  },
+  {
+    "title": "Office (GU)",
+    "start": "2026-04-13",
+    "end": "2026-04-18",
     "type": "office"
+  },
+  {
+    "title": "Conference (ETAI)",
+    "start": "2026-08-21",
+    "end": "2026-08-29",
+    "type": "conference"
+  },
+  {
+    "title": "Holiday (Ascension Day)",
+    "start": "2026-05-14",
+    "end": "2026-05-15",
+    "type": "holiday"
   },
   {
     "title": "Holiday",
@@ -109,8 +235,26 @@
   },
   {
     "title": "Office",
-    "start": "2026-11-23",
-    "end": "2026-11-28",
+    "start": "2026-10-26",
+    "end": "2026-10-31",
+    "type": "office"
+  },
+  {
+    "title": "Office (GU)",
+    "start": "2026-04-20",
+    "end": "2026-04-25",
+    "type": "office"
+  },
+  {
+    "title": "Holiday",
+    "start": "2026-07-06",
+    "end": "2026-07-11",
+    "type": "holiday"
+  },
+  {
+    "title": "Office",
+    "start": "2026-07-20",
+    "end": "2026-07-25",
     "type": "office"
   },
   {
@@ -121,122 +265,8 @@
   },
   {
     "title": "Office",
-    "start": "2026-07-20",
-    "end": "2026-07-25",
-    "type": "office"
-  },
-  {
-    "title": "Office",
-    "start": "2026-11-16",
-    "end": "2026-11-21",
-    "type": "office"
-  },
-  {
-    "title": "Holiday",
-    "start": "2026-10-12",
-    "end": "2026-10-13",
-    "type": "holiday"
-  },
-  {
-    "title": "Holiday",
-    "start": "2026-12-28",
-    "end": "2026-12-31",
-    "type": "holiday"
-  },
-  {
-    "title": "Office",
-    "start": "2026-05-18",
-    "end": "2026-05-23",
-    "type": "office"
-  },
-  {
-    "title": "Holiday (Christmas)",
-    "start": "2026-12-24",
-    "end": "2026-12-26",
-    "type": "holiday"
-  },
-  {
-    "title": "Office",
-    "start": "2026-12-07",
-    "end": "2026-12-12",
-    "type": "office"
-  },
-  {
-    "title": "Leave (sick)",
-    "start": "2026-05-25",
-    "end": "2026-05-26",
-    "type": "leave"
-  },
-  {
-    "title": "Conference (NEMES)",
-    "start": "2026-09-21",
-    "end": "2026-09-24",
-    "type": "conference"
-  },
-  {
-    "title": "Office",
-    "start": "2026-06-01",
-    "end": "2026-06-06",
-    "type": "office"
-  },
-  {
-    "title": "Holiday (New Year's eve)",
-    "start": "2026-12-31",
-    "end": "2027-01-02",
-    "type": "holiday"
-  },
-  {
-    "title": "Office",
-    "start": "2026-05-26",
-    "end": "2026-05-30",
-    "type": "office"
-  },
-  {
-    "title": "Conference (ETAI)",
-    "start": "2026-08-21",
-    "end": "2026-08-29",
-    "type": "conference"
-  },
-  {
-    "title": "Office",
-    "start": "2026-09-24",
-    "end": "2026-09-26",
-    "type": "office"
-  },
-  {
-    "title": "Office",
-    "start": "2026-06-29",
-    "end": "2026-07-04",
-    "type": "office"
-  },
-  {
-    "title": "Holiday",
-    "start": "2026-12-21",
-    "end": "2026-12-24",
-    "type": "holiday"
-  },
-  {
-    "title": "Office",
-    "start": "2026-06-22",
-    "end": "2026-06-27",
-    "type": "office"
-  },
-  {
-    "title": "Leave (personal)",
-    "start": "2026-05-04",
-    "end": "2026-05-05",
-    "type": "leave"
-  },
-  {
-    "title": "Office",
-    "start": "2026-09-14",
-    "end": "2026-09-19",
-    "type": "office"
-  },
-  {
-    "title": "Office (GU)",
-    "start": "2026-04-20",
-    "end": "2026-04-25",
+    "start": "2026-10-19",
+    "end": "2026-10-21",
     "type": "office"
   },
   {
@@ -247,68 +277,38 @@
   },
   {
     "title": "Office",
-    "start": "2026-08-31",
-    "end": "2026-09-05",
-    "type": "office"
-  },
-  {
-    "title": "Office",
-    "start": "2026-05-15",
-    "end": "2026-05-16",
-    "type": "office"
-  },
-  {
-    "title": "Office",
     "start": "2026-12-14",
     "end": "2026-12-19",
     "type": "office"
   },
   {
     "title": "Office",
-    "start": "2026-06-08",
-    "end": "2026-06-12",
+    "start": "2026-06-01",
+    "end": "2026-06-06",
     "type": "office"
   },
   {
     "title": "Office",
-    "start": "2026-10-13",
-    "end": "2026-10-17",
+    "start": "2026-09-07",
+    "end": "2026-09-12",
     "type": "office"
   },
   {
-    "title": "Office",
-    "start": "2026-08-10",
-    "end": "2026-08-15",
-    "type": "office"
+    "title": "Leave (personal)",
+    "start": "2026-05-04",
+    "end": "2026-05-05",
+    "type": "leave"
   },
   {
-    "title": "Office",
-    "start": "2026-07-27",
-    "end": "2026-08-01",
-    "type": "office"
+    "title": "Holiday",
+    "start": "2026-07-13",
+    "end": "2026-07-18",
+    "type": "holiday"
   },
   {
     "title": "Office (GU)",
-    "start": "2026-04-13",
-    "end": "2026-04-18",
-    "type": "office"
-  },
-  {
-    "title": "Office",
-    "start": "2026-08-03",
-    "end": "2026-08-08",
-    "type": "office"
-  },
-  {
-    "title": "Office",
-    "start": "2026-10-05",
-    "end": "2026-10-08",
-    "type": "office"
-  },
-  {
-    "title": "Office",
-    "start": "2026-11-30",
-    "end": "2026-12-05",
+    "start": "2026-04-08",
+    "end": "2026-04-12",
     "type": "office"
   }
 ]
