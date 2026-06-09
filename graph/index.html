@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brain Graph</title>
+
+<style>
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #111111;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.container {
+  padding: 3rem 4vw;
+}
+
+.back {
+  color: #777;
+  text-decoration: none;
+}
+
+h1 {
+  font-weight: 400;
+  margin: 3rem 0 0.5rem;
+}
+
+.note {
+  color: #666;
+  margin-bottom: 2rem;
+  max-width: 680px;
+  line-height: 1.6;
+}
+
+#scene {
+  width: 100%;
+  height: 75vh;
+  border: 1px solid #eeeeee;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  display: none;
+  background: white;
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+  padding: 1rem;
+  max-width: 280px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tooltip-title {
+  font-size: 1rem;
+  margin-bottom: 0.4rem;
+}
+
+.tooltip-text {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.5;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <a class="back" href="/">← Home</a>
+
+  <h1>Brain Graph</h1>
+
+  <p class="note">
+    A 3D Desikan-like brain graph. Nodes represent cortical regions; edges sketch possible network connections.
+    Drag to rotate, scroll to zoom, and hover over nodes.
+  </p>
+
+  <div id="scene">
+    <div class="tooltip" id="tooltip">
+      <div class="tooltip-title" id="tooltipTitle"></div>
+      <div class="tooltip-text" id="tooltipText"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+
+const sceneElement = document.getElementById("scene");
+const tooltip = document.getElementById("tooltip");
+const tooltipTitle = document.getElementById("tooltipTitle");
+const tooltipText = document.getElementById("tooltipText");
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff);
+
+const camera = new THREE.PerspectiveCamera(
+  55,
+  sceneElement.clientWidth / sceneElement.clientHeight,
+  0.1,
+  2000
+);
+
+camera.position.set(0, -220, 110);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(sceneElement.clientWidth, sceneElement.clientHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+sceneElement.appendChild(renderer.domElement);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.6;
+
+const light = new THREE.DirectionalLight(0xffffff, 1.2);
+light.position.set(100, -100, 150);
+scene.add(light);
+
+const ambient = new THREE.AmbientLight(0xffffff, 1.4);
+scene.add(ambient);
+
+const nodeGroup = new THREE.Group();
+const edgeGroup = new THREE.Group();
+scene.add(edgeGroup);
+scene.add(nodeGroup);
+
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+let nodeMeshes = [];
+let nodes = [];
+
+function regionInfo(label) {
+  const text = label.toLowerCase();
+
+  if (text.includes("frontal")) return "Often linked to executive control, planning, decision-making, and working memory.";
+  if (text.includes("precentral")) return "Primary motor region involved in voluntary movement.";
+  if (text.includes("postcentral")) return "Primary somatosensory region involved in body sensation.";
+  if (text.includes("temporal")) return "Associated with auditory processing, memory, language, and semantic processing.";
+  if (text.includes("parietal")) return "Associated with spatial attention, sensory integration, and multimodal processing.";
+  if (text.includes("occipital") || text.includes("cuneus") || text.includes("lingual") || text.includes("pericalcarine")) return "Associated with visual processing.";
+  if (text.includes("cingulate")) return "Associated with attention, emotion, memory, and cognitive control.";
+  if (text.includes("insula")) return "Associated with interoception, salience, emotion, and bodily awareness.";
+  if (text.includes("entorhinal") || text.includes("parahippocampal")) return "Associated with memory and medial temporal lobe processing.";
+
+  return "Cortical region from the Desikan atlas.";
+}
+
+function colourByHemisphere(node) {
+  if (node.hemisphere === "left") return 0x222222;
+  if (node.hemisphere === "right") return 0x555555;
+  return 0x333333;
+}
+
+function makeNode(node) {
+  const geometry = new THREE.SphereGeometry(3.2, 24, 24);
+  const material = new THREE.MeshStandardMaterial({
+    color: colourByHemisphere(node),
+    roughness: 0.45,
+    metalness: 0.1
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+
+  mesh.position.set(node.x, node.y, node.z);
+  mesh.userData = node;
+
+  nodeGroup.add(mesh);
+  nodeMeshes.push(mesh);
+}
+
+function makeEdge(a, b) {
+  const points = [
+    new THREE.Vector3(a.x, a.y, a.z),
+    new THREE.Vector3(b.x, b.y, b.z)
+  ];
+
+  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+  const material = new THREE.LineBasicMaterial({
+    color: 0x999999,
+    transparent: true,
+    opacity: 0.25
+  });
+
+  const line = new THREE.Line(geometry, material);
+  edgeGroup.add(line);
+}
+
+function createEdges() {
+  const left = nodes.filter(n => n.hemisphere === "left");
+  const right = nodes.filter(n => n.hemisphere === "right");
+
+  for (let i = 0; i < left.length - 1; i++) {
+    makeEdge(left[i], left[i + 1]);
+  }
+
+  for (let i = 0; i < right.length - 1; i++) {
+    makeEdge(right[i], right[i + 1]);
+  }
+
+  for (let i = 0; i < Math.min(left.length, right.length); i += 4) {
+    makeEdge(left[i], right[i]);
+  }
+
+  for (let i = 0; i < nodes.length; i += 5) {
+    const a = nodes[i];
+    const b = nodes[(i + 9) % nodes.length];
+    makeEdge(a, b);
+  }
+}
+
+function addSoftBrainShape() {
+  const geometry = new THREE.SphereGeometry(75, 48, 32);
+  geometry.scale(1.15, 0.75, 0.85);
+
+  const material = new THREE.MeshBasicMaterial({
+    color: 0xf5f5f5,
+    transparent: true,
+    opacity: 0.15,
+    wireframe: true
+  });
+
+  const brain = new THREE.Mesh(geometry, material);
+  scene.add(brain);
+}
+
+function normaliseNodes(rawNodes) {
+  return rawNodes.map(node => ({
+    ...node,
+    x: Number(node.x),
+    y: Number(node.y),
+    z: Number(node.z)
+  }));
+}
+
+async function loadGraph() {
+  const response = await fetch("/content/desikan-nodes.json");
+  nodes = normaliseNodes(await response.json());
+
+  nodes.forEach(makeNode);
+  createEdges();
+  addSoftBrainShape();
+}
+
+function onMouseMove(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+
+  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const hits = raycaster.intersectObjects(nodeMeshes);
+
+  if (hits.length > 0) {
+    const node = hits[0].object.userData;
+
+    tooltip.style.display = "block";
+    tooltip.style.left = `${event.clientX - rect.left + 20}px`;
+    tooltip.style.top = `${event.clientY - rect.top + 20}px`;
+
+    tooltipTitle.textContent = node.displayLabel || node.label;
+    tooltipText.textContent = regionInfo(node.label || node.displayLabel);
+
+    controls.autoRotate = false;
+  } else {
+    tooltip.style.display = "none";
+  }
+}
+
+function onMouseLeave() {
+  tooltip.style.display = "none";
+}
+
+function resize() {
+  camera.aspect = sceneElement.clientWidth / sceneElement.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(sceneElement.clientWidth, sceneElement.clientHeight);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+renderer.domElement.addEventListener("mousemove", onMouseMove);
+renderer.domElement.addEventListener("mouseleave", onMouseLeave);
+window.addEventListener("resize", resize);
+
+loadGraph();
+animate();
+</script>
+</body>
+</html>

@@ -1,0 +1,682 @@
+[
+  {
+    "id": "lSF",
+    "index": 1,
+    "label": "superiorfrontal",
+    "displayLabel": "Left superiorfrontal",
+    "hemisphere": "left",
+    "x": -12.6,
+    "y": 22.9,
+    "z": 42.4
+  },
+  {
+    "id": "lFP",
+    "index": 2,
+    "label": "frontalpole",
+    "displayLabel": "Left frontalpole",
+    "hemisphere": "left",
+    "x": -8.6,
+    "y": 61.7,
+    "z": -8.7
+  },
+  {
+    "id": "lRMF",
+    "index": 3,
+    "label": "rostralmiddlefrontal",
+    "displayLabel": "Left rostralmiddlefrontal",
+    "hemisphere": "left",
+    "x": -31.3,
+    "y": 41.2,
+    "z": 16.5
+  },
+  {
+    "id": "lCMF",
+    "index": 4,
+    "label": "caudalmiddlefrontal",
+    "displayLabel": "Left caudalmiddlefrontal",
+    "hemisphere": "left",
+    "x": -34.6,
+    "y": 10.2,
+    "z": 42.8
+  },
+  {
+    "id": "lPOB",
+    "index": 5,
+    "label": "parsorbitalis",
+    "displayLabel": "Left parsorbitalis",
+    "hemisphere": "left",
+    "x": -41.0,
+    "y": 38.8,
+    "z": -11.1
+  },
+  {
+    "id": "lLOF",
+    "index": 6,
+    "label": "lateralorbitofrontal",
+    "displayLabel": "Left lateralorbitofrontal",
+    "hemisphere": "left",
+    "x": -24.0,
+    "y": 28.6,
+    "z": -14.4
+  },
+  {
+    "id": "lPT",
+    "index": 7,
+    "label": "parstriangularis",
+    "displayLabel": "Left parstriangularis",
+    "hemisphere": "left",
+    "x": -42.4,
+    "y": 30.6,
+    "z": 2.3
+  },
+  {
+    "id": "lPOP",
+    "index": 8,
+    "label": "parsopercularis",
+    "displayLabel": "Left parsopercularis",
+    "hemisphere": "left",
+    "x": -44.6,
+    "y": 14.6,
+    "z": 13.1
+  },
+  {
+    "id": "lMOF",
+    "index": 9,
+    "label": "medialorbitofrontal",
+    "displayLabel": "Left medialorbitofrontal",
+    "hemisphere": "left",
+    "x": -8.0,
+    "y": 34.9,
+    "z": -14.9
+  },
+  {
+    "id": "lRAC",
+    "index": 10,
+    "label": "rostralanteriorcingulate",
+    "displayLabel": "Left rostralanteriorcingulate",
+    "hemisphere": "left",
+    "x": -6.8,
+    "y": 33.9,
+    "z": 1.6
+  },
+  {
+    "id": "lCAC",
+    "index": 11,
+    "label": "caudalanteriorcingulate",
+    "displayLabel": "Left caudalanteriorcingulate",
+    "hemisphere": "left",
+    "x": -6.6,
+    "y": 18.0,
+    "z": 26.1
+  },
+  {
+    "id": "lINS",
+    "index": 12,
+    "label": "insula",
+    "displayLabel": "Left insula",
+    "hemisphere": "left",
+    "x": -34.2,
+    "y": -4.3,
+    "z": 2.2
+  },
+  {
+    "id": "lPRC",
+    "index": 13,
+    "label": "precentral",
+    "displayLabel": "Left precentral",
+    "hemisphere": "left",
+    "x": -37.8,
+    "y": -10.7,
+    "z": 42.1
+  },
+  {
+    "id": "lPOC",
+    "index": 14,
+    "label": "postcentral",
+    "displayLabel": "Left postcentral",
+    "hemisphere": "left",
+    "x": -42.3,
+    "y": -23.8,
+    "z": 43.6
+  },
+  {
+    "id": "lSUPRA",
+    "index": 15,
+    "label": "supramarginal",
+    "displayLabel": "Left supramarginal",
+    "hemisphere": "left",
+    "x": -50.4,
+    "y": -38.8,
+    "z": 31.0
+  },
+  {
+    "id": "lSP",
+    "index": 16,
+    "label": "superiorparietal",
+    "displayLabel": "Left superiorparietal",
+    "hemisphere": "left",
+    "x": -22.8,
+    "y": -60.9,
+    "z": 46.3
+  },
+  {
+    "id": "lIP",
+    "index": 17,
+    "label": "inferiorparietal",
+    "displayLabel": "Left inferiorparietal",
+    "hemisphere": "left",
+    "x": -40.0,
+    "y": -66.4,
+    "z": 27.3
+  },
+  {
+    "id": "lPARA",
+    "index": 18,
+    "label": "paracentral",
+    "displayLabel": "Left paracentral",
+    "hemisphere": "left",
+    "x": -10.0,
+    "y": -28.7,
+    "z": 56.1
+  },
+  {
+    "id": "lPCG",
+    "index": 19,
+    "label": "posteriorcingulate",
+    "displayLabel": "Left posteriorcingulate",
+    "hemisphere": "left",
+    "x": -7.3,
+    "y": -17.4,
+    "z": 35.7
+  },
+  {
+    "id": "lIST",
+    "index": 20,
+    "label": "isthmuscingulate",
+    "displayLabel": "Left isthmuscingulate",
+    "hemisphere": "left",
+    "x": -9.8,
+    "y": -44.8,
+    "z": 16.9
+  },
+  {
+    "id": "lPREC",
+    "index": 21,
+    "label": "precuneus",
+    "displayLabel": "Left precuneus",
+    "hemisphere": "left",
+    "x": -11.6,
+    "y": -57.5,
+    "z": 36.7
+  },
+  {
+    "id": "lCUN",
+    "index": 22,
+    "label": "cuneus",
+    "displayLabel": "Left cuneus",
+    "hemisphere": "left",
+    "x": -8.7,
+    "y": -79.6,
+    "z": 18.0
+  },
+  {
+    "id": "lPERI",
+    "index": 23,
+    "label": "pericalcarine",
+    "displayLabel": "Left pericalcarine",
+    "hemisphere": "left",
+    "x": -13.9,
+    "y": -80.6,
+    "z": 6.0
+  },
+  {
+    "id": "lLIN",
+    "index": 24,
+    "label": "lingual",
+    "displayLabel": "Left lingual",
+    "hemisphere": "left",
+    "x": -16.5,
+    "y": -66.8,
+    "z": -4.3
+  },
+  {
+    "id": "lLO",
+    "index": 25,
+    "label": "lateraloccipital",
+    "displayLabel": "Left lateraloccipital",
+    "hemisphere": "left",
+    "x": -29.7,
+    "y": -86.9,
+    "z": -1.0
+  },
+  {
+    "id": "lTRANS",
+    "index": 26,
+    "label": "transversetemporal",
+    "displayLabel": "Left transversetemporal",
+    "hemisphere": "left",
+    "x": -44.0,
+    "y": -24.2,
+    "z": 6.0
+  },
+  {
+    "id": "lBKS",
+    "index": 27,
+    "label": "bankssts",
+    "displayLabel": "Left bankssts",
+    "hemisphere": "left",
+    "x": -52.7,
+    "y": -44.5,
+    "z": 4.6
+  },
+  {
+    "id": "lST",
+    "index": 28,
+    "label": "superiortemporal",
+    "displayLabel": "Left superiortemporal",
+    "hemisphere": "left",
+    "x": -52.1,
+    "y": -17.8,
+    "z": -4.4
+  },
+  {
+    "id": "lMT",
+    "index": 29,
+    "label": "middletemporal",
+    "displayLabel": "Left middletemporal",
+    "hemisphere": "left",
+    "x": -55.6,
+    "y": -31.1,
+    "z": -12.9
+  },
+  {
+    "id": "lIT",
+    "index": 30,
+    "label": "inferiortemporal",
+    "displayLabel": "Left inferiortemporal",
+    "hemisphere": "left",
+    "x": -48.9,
+    "y": -34.4,
+    "z": -22.2
+  },
+  {
+    "id": "lTP",
+    "index": 31,
+    "label": "temporalpole",
+    "displayLabel": "Left temporalpole",
+    "hemisphere": "left",
+    "x": -32.8,
+    "y": 8.4,
+    "z": -34.8
+  },
+  {
+    "id": "lENT",
+    "index": 32,
+    "label": "entorhinal",
+    "displayLabel": "Left entorhinal",
+    "hemisphere": "left",
+    "x": -25.8,
+    "y": -7.6,
+    "z": -31.6
+  },
+  {
+    "id": "lPHIP",
+    "index": 33,
+    "label": "parahippocampal",
+    "displayLabel": "Left parahippocampal",
+    "hemisphere": "left",
+    "x": -24.7,
+    "y": -31.2,
+    "z": -17.4
+  },
+  {
+    "id": "lFUS",
+    "index": 34,
+    "label": "fusiform",
+    "displayLabel": "Left fusiform",
+    "hemisphere": "left",
+    "x": -35.7,
+    "y": -43.3,
+    "z": -19.7
+  },
+  {
+    "id": "rSF",
+    "index": 35,
+    "label": "superiorfrontal",
+    "displayLabel": "Right superiorfrontal",
+    "hemisphere": "right",
+    "x": 13.4,
+    "y": 24.7,
+    "z": 42.0
+  },
+  {
+    "id": "rFP",
+    "index": 36,
+    "label": "frontalpole",
+    "displayLabel": "Right frontalpole",
+    "hemisphere": "right",
+    "x": 10.3,
+    "y": 61.1,
+    "z": -10.0
+  },
+  {
+    "id": "rCAC",
+    "index": 37,
+    "label": "caudalanteriorcingulate",
+    "displayLabel": "Right caudalanteriorcingulate",
+    "hemisphere": "right",
+    "x": 7.3,
+    "y": 18.7,
+    "z": 26.3
+  },
+  {
+    "id": "rCMF",
+    "index": 38,
+    "label": "caudalmiddlefrontal",
+    "displayLabel": "Right caudalmiddlefrontal",
+    "hemisphere": "right",
+    "x": 34.9,
+    "y": 11.8,
+    "z": 43.0
+  },
+  {
+    "id": "rPOB",
+    "index": 39,
+    "label": "parsorbitalis",
+    "displayLabel": "Right parsorbitalis",
+    "hemisphere": "right",
+    "x": 42.1,
+    "y": 39.2,
+    "z": -10.0
+  },
+  {
+    "id": "rLOF",
+    "index": 40,
+    "label": "lateralorbitofrontal",
+    "displayLabel": "Right lateralorbitofrontal",
+    "hemisphere": "right",
+    "x": 23.6,
+    "y": 28.5,
+    "z": -15.2
+  },
+  {
+    "id": "rPT",
+    "index": 41,
+    "label": "parstriangularis",
+    "displayLabel": "Right parstriangularis",
+    "hemisphere": "right",
+    "x": 45.0,
+    "y": 29.7,
+    "z": 4.5
+  },
+  {
+    "id": "rPOP",
+    "index": 42,
+    "label": "parsopercularis",
+    "displayLabel": "Right parsopercularis",
+    "hemisphere": "right",
+    "x": 44.9,
+    "y": 14.4,
+    "z": 14.2
+  },
+  {
+    "id": "rMOF",
+    "index": 43,
+    "label": "medialorbitofrontal",
+    "displayLabel": "Right medialorbitofrontal",
+    "hemisphere": "right",
+    "x": 8.8,
+    "y": 35.7,
+    "z": -14.8
+  },
+  {
+    "id": "rRMF",
+    "index": 44,
+    "label": "rostralmiddlefrontal",
+    "displayLabel": "Right rostralmiddlefrontal",
+    "hemisphere": "right",
+    "x": 32.3,
+    "y": 40.9,
+    "z": 17.3
+  },
+  {
+    "id": "rRAC",
+    "index": 45,
+    "label": "rostralanteriorcingulate",
+    "displayLabel": "Right rostralanteriorcingulate",
+    "hemisphere": "right",
+    "x": 8.0,
+    "y": 33.5,
+    "z": 2.1
+  },
+  {
+    "id": "rINS",
+    "index": 46,
+    "label": "insula",
+    "displayLabel": "Right insula",
+    "hemisphere": "right",
+    "x": 35.1,
+    "y": -3.9,
+    "z": 2.4
+  },
+  {
+    "id": "rPRC",
+    "index": 47,
+    "label": "precentral",
+    "displayLabel": "Right precentral",
+    "hemisphere": "right",
+    "x": 36.8,
+    "y": -9.9,
+    "z": 43.5
+  },
+  {
+    "id": "rPOC",
+    "index": 48,
+    "label": "postcentral",
+    "displayLabel": "Right postcentral",
+    "hemisphere": "right",
+    "x": 41.6,
+    "y": -22.4,
+    "z": 43.8
+  },
+  {
+    "id": "rSUPRA",
+    "index": 49,
+    "label": "supramarginal",
+    "displayLabel": "Right supramarginal",
+    "hemisphere": "right",
+    "x": 50.6,
+    "y": -33.3,
+    "z": 30.7
+  },
+  {
+    "id": "rSP",
+    "index": 50,
+    "label": "superiorparietal",
+    "displayLabel": "Right superiorparietal",
+    "hemisphere": "right",
+    "x": 22.6,
+    "y": -59.5,
+    "z": 48.1
+  },
+  {
+    "id": "rIP",
+    "index": 51,
+    "label": "inferiorparietal",
+    "displayLabel": "Right inferiorparietal",
+    "hemisphere": "right",
+    "x": 42.8,
+    "y": -60.9,
+    "z": 28.1
+  },
+  {
+    "id": "rPARAC",
+    "index": 52,
+    "label": "paracentral",
+    "displayLabel": "Right paracentral",
+    "hemisphere": "right",
+    "x": 9.9,
+    "y": -27.4,
+    "z": 55.6
+  },
+  {
+    "id": "rPCG",
+    "index": 53,
+    "label": "posteriorcingulate",
+    "displayLabel": "Right posteriorcingulate",
+    "hemisphere": "right",
+    "x": 7.6,
+    "y": -17.1,
+    "z": 36.2
+  },
+  {
+    "id": "rIST",
+    "index": 54,
+    "label": "isthmuscingulate",
+    "displayLabel": "Right isthmuscingulate",
+    "hemisphere": "right",
+    "x": 8.9,
+    "y": -45.4,
+    "z": 17.6
+  },
+  {
+    "id": "rPREC",
+    "index": 55,
+    "label": "precuneus",
+    "displayLabel": "Right precuneus",
+    "hemisphere": "right",
+    "x": 11.7,
+    "y": -56.5,
+    "z": 37.7
+  },
+  {
+    "id": "rCUN",
+    "index": 56,
+    "label": "cuneus",
+    "displayLabel": "Right cuneus",
+    "hemisphere": "right",
+    "x": 8.7,
+    "y": -80.1,
+    "z": 19.0
+  },
+  {
+    "id": "rPERI",
+    "index": 57,
+    "label": "pericalcarine",
+    "displayLabel": "Right pericalcarine",
+    "hemisphere": "right",
+    "x": 14.0,
+    "y": -79.7,
+    "z": 6.7
+  },
+  {
+    "id": "rLIN",
+    "index": 58,
+    "label": "lingual",
+    "displayLabel": "Right lingual",
+    "hemisphere": "right",
+    "x": 16.8,
+    "y": -66.3,
+    "z": -3.6
+  },
+  {
+    "id": "rLO",
+    "index": 59,
+    "label": "lateraloccipital",
+    "displayLabel": "Right lateraloccipital",
+    "hemisphere": "right",
+    "x": 30.3,
+    "y": -86.3,
+    "z": 0.5
+  },
+  {
+    "id": "rTRANS",
+    "index": 60,
+    "label": "transversetemporal",
+    "displayLabel": "Right transversetemporal",
+    "hemisphere": "right",
+    "x": 44.8,
+    "y": -22.4,
+    "z": 6.5
+  },
+  {
+    "id": "rBKS",
+    "index": 61,
+    "label": "bankssts",
+    "displayLabel": "Right bankssts",
+    "hemisphere": "right",
+    "x": 51.9,
+    "y": -40.6,
+    "z": 5.6
+  },
+  {
+    "id": "rST",
+    "index": 62,
+    "label": "superiortemporal",
+    "displayLabel": "Right superiortemporal",
+    "hemisphere": "right",
+    "x": 53.0,
+    "y": -14.0,
+    "z": -5.5
+  },
+  {
+    "id": "rMT",
+    "index": 63,
+    "label": "middletemporal",
+    "displayLabel": "Right middletemporal",
+    "hemisphere": "right",
+    "x": 55.9,
+    "y": -29.5,
+    "z": -12.9
+  },
+  {
+    "id": "rIT",
+    "index": 64,
+    "label": "inferiortemporal",
+    "displayLabel": "Right inferiortemporal",
+    "hemisphere": "right",
+    "x": 49.3,
+    "y": -31.7,
+    "z": -23.0
+  },
+  {
+    "id": "rTP",
+    "index": 65,
+    "label": "temporalpole",
+    "displayLabel": "Right temporalpole",
+    "hemisphere": "right",
+    "x": 34.0,
+    "y": 8.4,
+    "z": -33.1
+  },
+  {
+    "id": "rENT",
+    "index": 66,
+    "label": "entorhinal",
+    "displayLabel": "Right entorhinal",
+    "hemisphere": "right",
+    "x": 26.2,
+    "y": -6.8,
+    "z": -31.9
+  },
+  {
+    "id": "rPHIP",
+    "index": 67,
+    "label": "parahippocampal",
+    "displayLabel": "Right parahippocampal",
+    "hemisphere": "right",
+    "x": 26.1,
+    "y": -31.3,
+    "z": -16.2
+  },
+  {
+    "id": "rFUS",
+    "index": 68,
+    "label": "fusiform",
+    "displayLabel": "Right fusiform",
+    "hemisphere": "right",
+    "x": 35.9,
+    "y": -43.0,
+    "z": -19.2
+  }
+]
