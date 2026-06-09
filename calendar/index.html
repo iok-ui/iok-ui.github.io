@@ -432,6 +432,33 @@ function openPopup(event) {
 function closePopup() {
   document.getElementById("popup").style.display = "none";
 }
+let touchStartX = 0;
+let touchEndX = 0;
+
+const calendarElement = document.getElementById("calendar");
+
+calendarElement.addEventListener("touchstart", event => {
+  touchStartX = event.changedTouches[0].screenX;
+});
+
+calendarElement.addEventListener("touchend", event => {
+  touchEndX = event.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const swipeDistance = touchEndX - touchStartX;
+
+  if (Math.abs(swipeDistance) < 50) {
+    return;
+  }
+
+  if (swipeDistance > 0) {
+    changeMonth(-1); // swipe right → previous month
+  } else {
+    changeMonth(1);  // swipe left → next month
+  }
+}
 
 fetch("/content/calendar.json")
   .then(response => response.json())
