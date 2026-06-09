@@ -41,6 +41,7 @@ h1 {
   border-radius: 24px;
   overflow: hidden;
   position: relative;
+  background: #f7f7f7;
 }
 
 .tooltip {
@@ -88,9 +89,18 @@ h1 {
   </div>
 </div>
 
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
 <script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
-import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const sceneElement = document.getElementById("scene");
 const tooltip = document.getElementById("tooltip");
@@ -244,7 +254,11 @@ function normaliseNodes(rawNodes) {
 
 async function loadGraph() {
   const response = await fetch("/content/desikan-nodes.json");
-  nodes = normaliseNodes(await response.json());
+  const data = await response.json();
+
+  nodes = normaliseNodes(data.nodes || data);
+
+  console.log("Loaded nodes:", nodes);
 
   nodes.forEach(makeNode);
   createEdges();
