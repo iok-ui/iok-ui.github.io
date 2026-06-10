@@ -393,19 +393,47 @@ function createEdges() {
   }
 }
 
-function addSoftBrainShape() {
-  const geometry = new THREE.SphereGeometry(90, 48, 32);
-  geometry.scale(1.05, 0.72, 0.82);
+async function addBrainSurface() {
+  const response = await fetch("/content/brain-surface.json");
+  const surface = await response.json();
 
-  const material = new THREE.MeshBasicMaterial({
-    color: 0xeeeeee,
+  const vertices = new Float32Array(surface.vertices.flat());
+  const indices = new Uint32Array(surface.faces.flat());
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
+  geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+  geometry.computeVertexNormals();
+
+  geometry.center();
+
+  const box = new THREE.Box3().setFromBufferAttribute(
+    geometry.getAttribute("position")
+  );
+
+  const size = new THREE.Vector3();
+  box.getSize(size);
+
+  const maxDim = Math.max(size.x, size.y, size.z);
+  const scale = 180 / maxDim;
+
+  geometry.scale(scale, scale, scale);
+
+  const material = new THREE.MeshStandardMaterial({
+    color: 0xdedede,
     transparent: true,
-    opacity: 0.08,
-    wireframe: true
+    opacity: 0.18,
+    roughness: 0.8,
+    metalness: 0.0,
+    side: THREE.DoubleSide,
+    depthWrite: false
   });
 
-  const brain = new THREE.Mesh(geometry, material);
-  scene.add(brain);
+  const mesh = new THREE.Mesh(geometry, material);
+
+  mesh.rotation.x = -Math.PI / 2;
+
+  scene.add(mesh);
 }
 
 function showTooltip(node, x, y) {
@@ -506,7 +534,7 @@ async function loadGraph() {
 
   nodes.forEach(makeNode);
   createEdges();
-  addSoftBrainShape();
+  addBrainSurface();
 }
 
 function resize() {
