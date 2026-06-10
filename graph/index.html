@@ -415,14 +415,14 @@ async function addBrainSurface() {
   box.getSize(size);
 
   const maxDim = Math.max(size.x, size.y, size.z);
-  const scale = 180 / maxDim;
+  const scale = 165 / maxDim;
 
   geometry.scale(scale, scale, scale);
 
   const material = new THREE.MeshStandardMaterial({
     color: 0xdedede,
     transparent: true,
-    opacity: 0.18,
+    opacity: 0.08,
     roughness: 0.8,
     metalness: 0.0,
     side: THREE.DoubleSide,
@@ -431,7 +431,9 @@ async function addBrainSurface() {
 
   const mesh = new THREE.Mesh(geometry, material);
 
-  mesh.rotation.x = -Math.PI / 2;
+  mesh.rotation.x = 0;
+  mesh.rotation.y = Math.PI;
+  mesh.rotation.z = 0;
 
   scene.add(mesh);
 }
