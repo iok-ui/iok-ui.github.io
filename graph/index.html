@@ -333,16 +333,19 @@ function makeNode(node) {
   const geometry = new THREE.SphereGeometry(2.8, 28, 28);
 
   const material = new THREE.MeshStandardMaterial({
-    color: colourByRegion(node),
-    roughness: 0.4,
-    metalness: 0.08
+    color: 0xd8d8d8,
+    transparent: true,
+    opacity: 0.28,
+    roughness: 0.55,
+    metalness: 0.02
   });
 
   const mesh = new THREE.Mesh(geometry, material);
   mesh.position.set(node.x, node.y, node.z);
   mesh.userData = {
     ...node,
-    originalColor: colourByRegion(node)
+    originalColor: colourByRegion(node),
+    baseColor: 0xd8d8d8
   };
 
   nodeGroup.add(mesh);
@@ -358,12 +361,16 @@ function makeEdge(a, b, opacity = 0.18) {
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
   const material = new THREE.LineBasicMaterial({
-    color: 0x777777,
+    color: 0xd0d0d0,
     transparent: true,
-    opacity
+    opacity: 0.06
   });
 
   const line = new THREE.Line(geometry, material);
+  line.userData = {
+    source: a,
+    target: b
+  };
   edgeGroup.add(line);
 }
 
@@ -473,25 +480,110 @@ function resetNodeScales() {
   });
 }
 
+function screenPositionOf(vector3, rect) {
+  const projected = vector3.clone();
+  projected.project(camera);
+
+  return {
+    x: (projected.x * 0.5 + 0.5) * rect.width,
+    y: (-projected.y * 0.5 + 0.5) * rect.height
+  };
+}
+
+function resetVisuals() {
+  nodeMeshes.forEach(mesh => {
+    mesh.scale.set(1, 1, 1);
+    mesh.material.color.setHex(0xd8d8d8);
+    mesh.material.opacity = 0.28;
+  });
+
+  edgeGroup.children.forEach(edge => {
+    edge.material.color.setHex(0xd0d0d0);
+    edge.material.opacity = 0.06;
+  });
+}
+
+function lightUpAroundPointer(pointerX, pointerY, rect) {
+  const radius = 115;
+
+  nodeMeshes.forEach(mesh => {
+    const pos = screenPositionOf(mesh.position, rect);
+
+    const dx = pos.x - pointerX;
+    const dy = pos.y - pointerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < radius) {
+      const strength = 1 - distance / radius;
+
+      mesh.material.color.setHex(mesh.userData.originalColor);
+      mesh.material.opacity = 0.28 + strength * 0.72;
+      mesh.scale.setScalar(1 + strength * 0.75);
+    }
+  });
+
+  edgeGroup.children.forEach(edge => {
+    const source = new THREE.Vector3(
+      edge.userData.source.x,
+      edge.userData.source.y,
+      edge.userData.source.z
+    );
+
+    const target = new THREE.Vector3(
+      edge.userData.target.x,
+      edge.userData.target.y,
+      edge.userData.target.z
+    );
+
+    const a = screenPositionOf(source, rect);
+    const b = screenPositionOf(target, rect);
+
+    const midpointX = (a.x + b.x) / 2;
+    const midpointY = (a.y + b.y) / 2;
+
+    const dx = midpointX - pointerX;
+    const dy = midpointY - pointerY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < radius) {
+      const strength = 1 - distance / radius;
+
+      edge.material.color.setHex(0x999999);
+      edge.material.opacity = 0.06 + strength * 0.32;
+    }
+  });
+}
+
 function onPointerMove(event) {
   if (pinnedNode) return;
 
-  const { hits, rect } = getIntersections(event);
+  const rect = renderer.domElement.getBoundingClientRect();
+
+  const pointerX = event.clientX - rect.left;
+  const pointerY = event.clientY - rect.top;
+
+  mouse.x = (pointerX / rect.width) * 2 - 1;
+  mouse.y = -(pointerY / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  resetVisuals();
+  lightUpAroundPointer(pointerX, pointerY, rect);
+
+  const hits = raycaster.intersectObjects(nodeMeshes);
 
   if (hits.length > 0) {
     const mesh = hits[0].object;
     const node = mesh.userData;
 
-    showTooltip(
-      node,
-      event.clientX - rect.left,
-      event.clientY - rect.top
-    );
+    mesh.material.color.setHex(mesh.userData.originalColor);
+    mesh.material.opacity = 1;
+    mesh.scale.setScalar(1.8);
 
-    mesh.scale.set(1.35, 1.35, 1.35);
+    showTooltip(node, pointerX, pointerY);
+    controls.autoRotate = false;
   } else {
     tooltip.style.display = "none";
-    resetNodeScales();
   }
 }
 
@@ -499,13 +591,18 @@ function onClick(event) {
   const { hits, rect } = getIntersections(event);
 
   resetNodeScales();
+  resetVisuals();
 
   if (hits.length > 0) {
     const mesh = hits[0].object;
     pinnedMesh = mesh;
     pinnedNode = mesh.userData;
 
-    mesh.scale.set(1.8, 1.8, 1.8);
+    resetVisuals();
+
+    mesh.material.color.setHex(mesh.userData.originalColor);
+    mesh.material.opacity = 1;
+    mesh.scale.set(1.9, 1.9, 1.9);
 
     showTooltip(
       pinnedNode,
@@ -524,7 +621,7 @@ function onClick(event) {
 function onPointerLeave() {
   if (!pinnedNode) {
     tooltip.style.display = "none";
-    resetNodeScales();
+    resetVisuals();
   }
 }
 
