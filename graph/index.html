@@ -22,6 +22,10 @@ body {
   text-decoration: none;
 }
 
+.back:hover {
+  color: #111;
+}
+
 h1 {
   font-weight: 400;
   margin: 3rem 0 0.5rem;
@@ -30,7 +34,7 @@ h1 {
 .note {
   color: #666;
   margin-bottom: 2rem;
-  max-width: 680px;
+  max-width: 720px;
   line-height: 1.6;
 }
 
@@ -41,7 +45,7 @@ h1 {
   border-radius: 24px;
   overflow: hidden;
   position: relative;
-  background: #f7f7f7;
+  background: #fafafa;
 }
 
 .tooltip {
@@ -51,7 +55,7 @@ h1 {
   border: 1px solid #eeeeee;
   border-radius: 16px;
   padding: 1rem;
-  max-width: 280px;
+  max-width: 300px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
   pointer-events: none;
   z-index: 10;
@@ -67,6 +71,37 @@ h1 {
   color: #666;
   line-height: 1.5;
 }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+
+  #scene {
+    height: 65vh;
+  }
+}
 </style>
 </head>
 
@@ -77,8 +112,8 @@ h1 {
   <h1>Brain Graph</h1>
 
   <p class="note">
-    A 3D Desikan-like brain graph. Nodes represent cortical regions; edges sketch possible network connections.
-    Drag to rotate, scroll to zoom, and hover over nodes.
+    A 3D Desikan brain graph. Nodes represent cortical regions; edges sketch possible network connections.
+    Drag to rotate, scroll or pinch to zoom, and click a node to keep its information open.
   </p>
 
   <div id="scene">
@@ -86,6 +121,14 @@ h1 {
       <div class="tooltip-title" id="tooltipTitle"></div>
       <div class="tooltip-text" id="tooltipText"></div>
     </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#2E7D32"></span>Frontal</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#4285F4"></span>Temporal</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#F2994A"></span>Parietal</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#9B59B6"></span>Occipital / visual</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#FC8EAC"></span>Limbic / cingulate / insula</div>
   </div>
 </div>
 
@@ -114,80 +157,199 @@ const camera = new THREE.PerspectiveCamera(
   55,
   sceneElement.clientWidth / sceneElement.clientHeight,
   0.1,
-  2000
+  3000
 );
 
-camera.position.set(0, -220, 110);
+camera.position.set(0, -180, 120);
+camera.lookAt(0, 0, 0);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: true
+});
+
 renderer.setSize(sceneElement.clientWidth, sceneElement.clientHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 sceneElement.appendChild(renderer.domElement);
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.05;
+controls.dampingFactor = 0.06;
+controls.enablePan = true;
+controls.enableZoom = true;
+controls.rotateSpeed = 0.65;
+controls.zoomSpeed = 0.8;
+controls.panSpeed = 0.7;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 0.6;
+controls.autoRotateSpeed = 0.35;
+controls.target.set(0, 0, 0);
 
-const light = new THREE.DirectionalLight(0xffffff, 1.2);
-light.position.set(100, -100, 150);
-scene.add(light);
+const directionalLight = new THREE.DirectionalLight(0xffffff, 1.4);
+directionalLight.position.set(120, -160, 200);
+scene.add(directionalLight);
 
-const ambient = new THREE.AmbientLight(0xffffff, 1.4);
-scene.add(ambient);
+const ambientLight = new THREE.AmbientLight(0xffffff, 1.3);
+scene.add(ambientLight);
 
 const nodeGroup = new THREE.Group();
 const edgeGroup = new THREE.Group();
+
 scene.add(edgeGroup);
 scene.add(nodeGroup);
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-let nodeMeshes = [];
 let nodes = [];
+let nodeMeshes = [];
+let pinnedNode = null;
+let pinnedMesh = null;
 
 function regionInfo(label) {
-  const text = label.toLowerCase();
+  const text = String(label || "").toLowerCase();
 
-  if (text.includes("frontal")) return "Often linked to executive control, planning, decision-making, and working memory.";
-  if (text.includes("precentral")) return "Primary motor region involved in voluntary movement.";
-  if (text.includes("postcentral")) return "Primary somatosensory region involved in body sensation.";
-  if (text.includes("temporal")) return "Associated with auditory processing, memory, language, and semantic processing.";
-  if (text.includes("parietal")) return "Associated with spatial attention, sensory integration, and multimodal processing.";
-  if (text.includes("occipital") || text.includes("cuneus") || text.includes("lingual") || text.includes("pericalcarine")) return "Associated with visual processing.";
-  if (text.includes("cingulate")) return "Associated with attention, emotion, memory, and cognitive control.";
-  if (text.includes("insula")) return "Associated with interoception, salience, emotion, and bodily awareness.";
-  if (text.includes("entorhinal") || text.includes("parahippocampal")) return "Associated with memory and medial temporal lobe processing.";
+  if (text.includes("frontal")) {
+    return "Often linked to executive control, planning, decision-making, working memory, and goal-directed behaviour.";
+  }
+
+  if (text.includes("precentral")) {
+    return "Primary motor region involved in voluntary movement and motor planning.";
+  }
+
+  if (text.includes("postcentral")) {
+    return "Primary somatosensory region involved in body sensation.";
+  }
+
+  if (text.includes("temporal")) {
+    return "Associated with auditory processing, memory, language, semantic processing, and social cognition.";
+  }
+
+  if (text.includes("parietal") || text.includes("supramarginal") || text.includes("precuneus")) {
+    return "Associated with spatial attention, sensory integration, multimodal processing, and body-space representation.";
+  }
+
+  if (
+    text.includes("occipital") ||
+    text.includes("cuneus") ||
+    text.includes("lingual") ||
+    text.includes("pericalcarine")
+  ) {
+    return "Associated with visual processing, shape perception, and scene-related information.";
+  }
+
+  if (text.includes("cingulate")) {
+    return "Associated with cognitive control, attention, emotion, memory, and default-mode network functions.";
+  }
+
+  if (text.includes("insula")) {
+    return "Associated with interoception, salience, emotion, bodily awareness, and integration of internal states.";
+  }
+
+  if (text.includes("entorhinal") || text.includes("parahippocampal")) {
+    return "Associated with memory, spatial context, and medial temporal lobe processing.";
+  }
+
+  if (text.includes("fusiform")) {
+    return "Associated with face, object, and high-level visual recognition.";
+  }
 
   return "Cortical region from the Desikan atlas.";
 }
 
-function colourByHemisphere(node) {
-  if (node.hemisphere === "left") return 0x222222;
-  if (node.hemisphere === "right") return 0x555555;
-  return 0x333333;
+function colourByRegion(node) {
+  const label = String(node.label || node.displayLabel || "").toLowerCase();
+
+  if (label.includes("frontal")) return 0x2E7D32;
+
+  if (label.includes("temporal")) return 0x4285F4;
+
+  if (
+    label.includes("parietal") ||
+    label.includes("supramarginal") ||
+    label.includes("precuneus")
+  ) return 0xF2994A;
+
+  if (
+    label.includes("occipital") ||
+    label.includes("cuneus") ||
+    label.includes("lingual") ||
+    label.includes("pericalcarine")
+  ) return 0x9B59B6;
+
+  if (
+    label.includes("cingulate") ||
+    label.includes("insula") ||
+    label.includes("entorhinal") ||
+    label.includes("parahippocampal") ||
+    label.includes("fusiform")
+  ) return 0xFC8EAC;
+
+  return 0x999999;
+}
+
+function normaliseNodes(rawNodes) {
+  const parsed = rawNodes.map(node => ({
+    ...node,
+    x: Number(node.x),
+    y: Number(node.y),
+    z: Number(node.z)
+  }));
+
+  const center = new THREE.Vector3();
+
+  parsed.forEach(node => {
+    center.x += node.x;
+    center.y += node.y;
+    center.z += node.z;
+  });
+
+  center.divideScalar(parsed.length);
+
+  parsed.forEach(node => {
+    node.x -= center.x;
+    node.y -= center.y;
+    node.z -= center.z;
+  });
+
+  let maxDistance = 1;
+
+  parsed.forEach(node => {
+    const distance = Math.sqrt(node.x ** 2 + node.y ** 2 + node.z ** 2);
+    maxDistance = Math.max(maxDistance, distance);
+  });
+
+  const scale = 85 / maxDistance;
+
+  parsed.forEach(node => {
+    node.x *= scale;
+    node.y *= scale;
+    node.z *= scale;
+  });
+
+  return parsed;
 }
 
 function makeNode(node) {
-  const geometry = new THREE.SphereGeometry(3.2, 24, 24);
+  const geometry = new THREE.SphereGeometry(2.8, 28, 28);
+
   const material = new THREE.MeshStandardMaterial({
-    color: colourByHemisphere(node),
-    roughness: 0.45,
-    metalness: 0.1
+    color: colourByRegion(node),
+    roughness: 0.4,
+    metalness: 0.08
   });
 
   const mesh = new THREE.Mesh(geometry, material);
-
   mesh.position.set(node.x, node.y, node.z);
-  mesh.userData = node;
+  mesh.userData = {
+    ...node,
+    originalColor: colourByRegion(node)
+  };
 
   nodeGroup.add(mesh);
   nodeMeshes.push(mesh);
 }
 
-function makeEdge(a, b) {
+function makeEdge(a, b, opacity = 0.18) {
   const points = [
     new THREE.Vector3(a.x, a.y, a.z),
     new THREE.Vector3(b.x, b.y, b.z)
@@ -196,9 +358,9 @@ function makeEdge(a, b) {
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
   const material = new THREE.LineBasicMaterial({
-    color: 0x999999,
+    color: 0x777777,
     transparent: true,
-    opacity: 0.25
+    opacity
   });
 
   const line = new THREE.Line(geometry, material);
@@ -206,36 +368,39 @@ function makeEdge(a, b) {
 }
 
 function createEdges() {
-  const left = nodes.filter(n => n.hemisphere === "left");
-  const right = nodes.filter(n => n.hemisphere === "right");
+  const left = nodes.filter(node => node.hemisphere === "left");
+  const right = nodes.filter(node => node.hemisphere === "right");
+
+  left.sort((a, b) => a.index - b.index);
+  right.sort((a, b) => a.index - b.index);
 
   for (let i = 0; i < left.length - 1; i++) {
-    makeEdge(left[i], left[i + 1]);
+    makeEdge(left[i], left[i + 1], 0.14);
   }
 
   for (let i = 0; i < right.length - 1; i++) {
-    makeEdge(right[i], right[i + 1]);
+    makeEdge(right[i], right[i + 1], 0.14);
   }
 
   for (let i = 0; i < Math.min(left.length, right.length); i += 4) {
-    makeEdge(left[i], right[i]);
+    makeEdge(left[i], right[i], 0.20);
   }
 
-  for (let i = 0; i < nodes.length; i += 5) {
+  for (let i = 0; i < nodes.length; i += 6) {
     const a = nodes[i];
-    const b = nodes[(i + 9) % nodes.length];
-    makeEdge(a, b);
+    const b = nodes[(i + 11) % nodes.length];
+    makeEdge(a, b, 0.10);
   }
 }
 
 function addSoftBrainShape() {
-  const geometry = new THREE.SphereGeometry(75, 48, 32);
-  geometry.scale(1.15, 0.75, 0.85);
+  const geometry = new THREE.SphereGeometry(90, 48, 32);
+  geometry.scale(1.05, 0.72, 0.82);
 
   const material = new THREE.MeshBasicMaterial({
-    color: 0xf5f5f5,
+    color: 0xeeeeee,
     transparent: true,
-    opacity: 0.15,
+    opacity: 0.08,
     wireframe: true
   });
 
@@ -243,13 +408,94 @@ function addSoftBrainShape() {
   scene.add(brain);
 }
 
-function normaliseNodes(rawNodes) {
-  return rawNodes.map(node => ({
-    ...node,
-    x: Number(node.x),
-    y: Number(node.y),
-    z: Number(node.z)
-  }));
+function showTooltip(node, x, y) {
+  tooltip.style.display = "block";
+  tooltip.style.left = `${x + 18}px`;
+  tooltip.style.top = `${y + 18}px`;
+
+  tooltipTitle.textContent = node.displayLabel || node.label;
+  tooltipText.textContent = regionInfo(node.label || node.displayLabel);
+}
+
+function hideTooltip() {
+  if (!pinnedNode) {
+    tooltip.style.display = "none";
+  }
+}
+
+function getIntersections(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+
+  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  return {
+    hits: raycaster.intersectObjects(nodeMeshes),
+    rect
+  };
+}
+
+function resetNodeScales() {
+  nodeMeshes.forEach(mesh => {
+    mesh.scale.set(1, 1, 1);
+  });
+}
+
+function onPointerMove(event) {
+  if (pinnedNode) return;
+
+  const { hits, rect } = getIntersections(event);
+
+  if (hits.length > 0) {
+    const mesh = hits[0].object;
+    const node = mesh.userData;
+
+    showTooltip(
+      node,
+      event.clientX - rect.left,
+      event.clientY - rect.top
+    );
+
+    mesh.scale.set(1.35, 1.35, 1.35);
+  } else {
+    tooltip.style.display = "none";
+    resetNodeScales();
+  }
+}
+
+function onClick(event) {
+  const { hits, rect } = getIntersections(event);
+
+  resetNodeScales();
+
+  if (hits.length > 0) {
+    const mesh = hits[0].object;
+    pinnedMesh = mesh;
+    pinnedNode = mesh.userData;
+
+    mesh.scale.set(1.8, 1.8, 1.8);
+
+    showTooltip(
+      pinnedNode,
+      event.clientX - rect.left,
+      event.clientY - rect.top
+    );
+
+    controls.autoRotate = false;
+  } else {
+    pinnedNode = null;
+    pinnedMesh = null;
+    tooltip.style.display = "none";
+  }
+}
+
+function onPointerLeave() {
+  if (!pinnedNode) {
+    tooltip.style.display = "none";
+    resetNodeScales();
+  }
 }
 
 async function loadGraph() {
@@ -258,41 +504,9 @@ async function loadGraph() {
 
   nodes = normaliseNodes(data.nodes || data);
 
-  console.log("Loaded nodes:", nodes);
-
   nodes.forEach(makeNode);
   createEdges();
   addSoftBrainShape();
-}
-
-function onMouseMove(event) {
-  const rect = renderer.domElement.getBoundingClientRect();
-
-  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-
-  const hits = raycaster.intersectObjects(nodeMeshes);
-
-  if (hits.length > 0) {
-    const node = hits[0].object.userData;
-
-    tooltip.style.display = "block";
-    tooltip.style.left = `${event.clientX - rect.left + 20}px`;
-    tooltip.style.top = `${event.clientY - rect.top + 20}px`;
-
-    tooltipTitle.textContent = node.displayLabel || node.label;
-    tooltipText.textContent = regionInfo(node.label || node.displayLabel);
-
-    controls.autoRotate = false;
-  } else {
-    tooltip.style.display = "none";
-  }
-}
-
-function onMouseLeave() {
-  tooltip.style.display = "none";
 }
 
 function resize() {
@@ -303,12 +517,15 @@ function resize() {
 
 function animate() {
   requestAnimationFrame(animate);
+
   controls.update();
   renderer.render(scene, camera);
 }
 
-renderer.domElement.addEventListener("mousemove", onMouseMove);
-renderer.domElement.addEventListener("mouseleave", onMouseLeave);
+renderer.domElement.addEventListener("pointermove", onPointerMove);
+renderer.domElement.addEventListener("pointerleave", onPointerLeave);
+renderer.domElement.addEventListener("click", onClick);
+
 window.addEventListener("resize", resize);
 
 loadGraph();
