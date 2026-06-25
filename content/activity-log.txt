@@ -9,7 +9,7 @@
 [Project | Romania] Converted all scanner-exported files to BIDS format.
 [Project | Romania] Organised the data provided by the collaborator.
 [Project | Romania] Provided a modality and participant availability report for T1, T2, FLAIR, fMRI, DWI and field maps, verified by Dr Nakuci.
-[Coordination | Codaria] Held a sync meeting with Dr Mijalkov.
+[Coordination | CODARIA] Held a sync meeting with Dr Mijalkov.
 [Coordination | Attention] Held a sync meeting with Dr Manso-Ortega.
 [Coordination | DIVA] Held a sync meeting with Dr Patil.
 [Hosting] Supported Dr Patil during his visit.
