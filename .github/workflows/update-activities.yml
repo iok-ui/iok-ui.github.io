@@ -1,0 +1,28 @@
+name: Update activities
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "content/activity-log.txt"
+      - "scripts/build-activities.js"
+
+permissions:
+  contents: write
+
+jobs:
+  update-activities:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build activity data
+        run: node scripts/build-activities.js
+
+      - name: Commit generated activity data
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Update activity data
+          file_pattern: content/activities.json

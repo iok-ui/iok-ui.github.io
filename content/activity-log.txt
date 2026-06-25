@@ -1,0 +1,27 @@
+2026-06-25
+[Project | Romania] Provided a quality report for all raw 3T T1w scans, verified by Dr Nakuci.
+[Project | Romania] Started FreeSurfer preprocessing for all 3T T1w scans.
+[Coordination | IC] Held a VAE meeting with Mr Sun.
+[Project | Attention] Verified the attention-autoencoder code.
+[Admin] Registered a new computer in Karyon.
+
+2026-06-24
+[Project | Romania] Converted all scanner-exported files to BIDS format.
+[Project | Romania] Organised the data provided by the collaborator.
+[Project | Romania] Provided a modality and participant availability report for T1, T2, FLAIR, fMRI, DWI and field maps, verified by Dr Nakuci.
+[Coordination | Codaria] Held a sync meeting with Dr Mijalkov.
+[Coordination | Attention] Held a sync meeting with Dr Manso-Ortega.
+[Coordination | DIVA] Held a sync meeting with Dr Patil.
+[Hosting] Supported Dr Patil during his visit.
+
+2026-06-23
+[Project | Romania] Set up FreeSurfer and fMRIPrep preprocessing environments.
+[Project | Romania] Verified the preprocessing environment on one sample scan, verified by Dr Nakuci.
+[Project | Attention] Developed the concept of adaptive grouping in the attention mechanism.
+[Hosting] Supported Dr Patil during his visit.
+
+2026-06-22
+[Coordination] Held a sync meeting with Dr Pereira.
+[Coordination | Symptom IC] Held a sync meeting with Mr Qizheng Zhao.
+[Coordination | IC] Held a sync meeting with Mr Hang Zhao.
+[Hosting] Supported Dr Patil during his visit.
