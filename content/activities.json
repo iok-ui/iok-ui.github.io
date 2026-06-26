@@ -13,6 +13,12 @@
   },
   {
     "date": "2026-06-26",
+    "category": "coordination",
+    "project": "Attention Protien",
+    "text": "Held a meeting with Dr Manso-Ortega for inquiring her input."
+  },
+  {
+    "date": "2026-06-26",
     "category": "project",
     "project": "Romania",
     "text": "Finished preprocessing for all 40 raw 3T T1w scans, verified by Dr Nakuci."
