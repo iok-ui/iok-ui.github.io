@@ -1,27 +1,15 @@
 [
   {
-    "date": "2026-06-26",
-    "category": "coordination",
-    "project": "Symptom IC",
-    "text": "Held a sync meeting with Mr Zhao and Dr. Pereira."
-  },
-  {
-    "date": "2026-06-26",
-    "category": "coordination",
-    "project": "Attention Clinical",
-    "text": "Held a meeting with Mr Zhao for providing my input."
-  },
-  {
-    "date": "2026-06-26",
-    "category": "coordination",
-    "project": "Attention Protien",
-    "text": "Held a meeting with Dr Manso-Ortega for inquiring her input."
-  },
-  {
-    "date": "2026-06-26",
+    "date": "2026-06-29",
     "category": "project",
     "project": "Romania",
-    "text": "Finished preprocessing for all 40 raw 3T T1w scans, verified by Dr Nakuci."
+    "text": "Provided quality assurance (fsqc) for preprocessed 3T T1w scans."
+  },
+  {
+    "date": "2026-06-29",
+    "category": "project",
+    "project": "Romania",
+    "text": "Running fMRIPrep for one subject for testing."
   },
   {
     "date": "2026-06-25",
