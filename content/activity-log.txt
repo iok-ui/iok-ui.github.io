@@ -2,7 +2,7 @@
 [Project | Romania] Finished preprocessing for all 40 raw 3T T1w scans, verified by Dr Nakuci.
 [Coordination | Symptom IC] Held a sync meeting with Mr Zhao and Dr. Pereira.
 [Coordination | Attention Clinical] Held a meeting with Mr Zhao for providing my input.
-
+[Coordination | Attention Protien] Held a meeting with Dr Manso-Ortega for inquiring her input.
 
 2026-06-25
 [Project | Romania] Provided a quality report for all raw 3T T1w scans, verified by Dr Nakuci.
