@@ -1,480 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Where's Io̍k-uí?</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Where's Io̍k-uí?</title>
 
-<style>
-body {
-  margin: 0;
-  background: white;
-  color: #111;
-  font-family: Helvetica, Arial, sans-serif;
-}
+  <style>
+    body {
+      margin: 0;
+      background: white;
+      color: #111;
+      font-family: Helvetica, Arial, sans-serif;
+    }
 
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-}
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
 
-.back {
-  color: #777;
-  text-decoration: none;
-}
+    .back {
+      color: #777;
+      text-decoration: none;
+    }
 
-h1 {
-  font-weight: 400;
-  margin: 3rem 0 2rem;
-}
+    h1 {
+      font-weight: 400;
+      margin: 3rem 0 2rem;
+    }
 
-.controls {
-  display: grid;
-  grid-template-columns: 70px 1fr 70px;
-  align-items: center;
-  margin-bottom: 2rem;
-}
+    .controls {
+      display: grid;
+      grid-template-columns: 70px 1fr 70px;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
 
-button {
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  cursor: pointer;
-}
+    button {
+      background: none;
+      border: 1px solid #ddd;
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
 
-.month-title {
-  text-align: center;
-  font-size: 1.4rem;
-}
+    .month-title {
+      text-align: center;
+      font-size: 1.4rem;
+    }
 
-.calendar {
-  display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
-  border-top: 1px solid #eee;
-  border-left: 1px solid #eee;
-  width: 100%;
-}
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      border-top: 1px solid #eee;
+      border-left: 1px solid #eee;
+      width: 100%;
+    }
 
-.day-name,
-.day {
-  min-width: 0;
-  border-right: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  padding: 0.7rem;
-  box-sizing: border-box;
-}
+    .day-name,
+    .day {
+      min-width: 0;
+      border-right: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      padding: 0.7rem;
+      box-sizing: border-box;
+    }
 
-.day-name {
-  color: #777;
-  font-size: 0.85rem;
-}
+    .day-name {
+      color: #777;
+      font-size: 0.85rem;
+    }
 
-.day {
-  min-height: 110px;
-}
+    .day {
+      min-height: 110px;
+    }
 
-.date {
-  font-size: 0.85rem;
-  color: #777;
-  margin-bottom: 0.5rem;
-}
+    .date {
+      font-size: 0.85rem;
+      color: #777;
+      margin-bottom: 0.5rem;
+    }
 
-.event {
-  max-width: 100%;
-  font-size: 0.75rem;
-  color: white;
-  border-radius: 6px;
-  padding: 0.25rem 0.4rem;
-  margin-bottom: 0.25rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
+    .event {
+      max-width: 100%;
+      font-size: 0.75rem;
+      color: white;
+      border-radius: 6px;
+      padding: 0.25rem 0.4rem;
+      margin-bottom: 0.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
 
-.event.past {
-  opacity: 0.28;
-}
+    .event.past {
+      opacity: 0.28;
+    }
 
-.day.today {
-  background: #f7f7f7;
-  box-shadow: inset 0 0 0 2px #111;
-}
+    .day.today {
+      background: #f7f7f7;
+      box-shadow: inset 0 0 0 2px #111;
+    }
 
-.day.today .date {
-  color: #111;
-  font-weight: 600;
-}
+    .day.today .date {
+      color: #111;
+      font-weight: 600;
+    }
 
-.office { background: #2E7D32; }
-.wfh { background: #9E9E9E; }
-.leave { background: #F2994A; }
-.holiday { background: #FC8EAC; }
-.conference { background: #4285F4; }
-.other { background: #999999; }
+    .office { background: #2E7D32; }
+    .wfh { background: #9E9E9E; }
+    .leave { background: #F2994A; }
+    .holiday { background: #FC8EAC; }
+    .conference { background: #4285F4; }
+    .other { background: #999999; }
 
-.summaries {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  margin-top: 4rem;
-}
+    .summaries {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 4rem;
+    }
 
-.summary h2 {
-  font-weight: 400;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-}
+    .summary h2 {
+      font-weight: 400;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
 
-.summary-item {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid #eee;
-}
+    .summary-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+    }
 
-.dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  margin-top: 6px;
-  flex-shrink: 0;
-}
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
 
-.summary-title {
-  font-size: 1rem;
-}
+    .summary-title {
+      font-size: 1rem;
+    }
 
-.summary-date {
-  color: #666;
-  font-size: 0.9rem;
-  margin-top: 0.3rem;
-}
+    .summary-date {
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
 
-@media (max-width: 700px) {
-  .container {
-    padding: 3rem 1rem;
-  }
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
 
-  h1 {
-    font-size: 2.4rem;
-  }
+    .popup-card {
+      background: white;
+      border: 1px solid #eee;
+      border-radius: 18px;
+      padding: 2rem;
+      max-width: 320px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
 
-  .controls {
-    grid-template-columns: 56px 1fr 56px;
-  }
+    .popup-title {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+    }
 
-  .month-title {
-    font-size: 1.35rem;
-  }
+    .popup-date {
+      color: #666;
+    }
 
-  .day-name,
-  .day {
-    padding: 0.35rem;
-  }
+    .popup-close {
+      margin-top: 2rem;
+      color: #777;
+      cursor: pointer;
+    }
 
-  .day {
-    min-height: 82px;
-  }
+    .credits {
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid #eee;
+      color: #777;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
 
-  .event {
-    font-size: 0.62rem;
-    padding: 0.18rem 0.28rem;
-  }
+    .access-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.97);
+    }
 
-  .summaries {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-}
-.event {
-  cursor: pointer;
-}
+    .access-card {
+      width: min(440px, 100%);
+      text-align: center;
+    }
 
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.75);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
+    .access-card h1 {
+      margin: 0 0 0.8rem;
+      font-size: 2rem;
+      font-weight: 400;
+    }
 
-.popup-card {
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 18px;
-  padding: 2rem;
-  max-width: 320px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-}
+    .access-card p {
+      margin: 0 0 1.5rem;
+      color: #666;
+      line-height: 1.6;
+    }
 
-.popup-title {
-  font-size: 1.4rem;
-  margin-bottom: 0.8rem;
-}
+    .access-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.8rem 0.9rem;
+      border: 1px solid #d8d8d8;
+      border-radius: 8px;
+      font: inherit;
+      text-align: center;
+    }
 
-.popup-date {
-  color: #666;
-}
+    .access-button {
+      margin-top: 0.8rem;
+      padding: 0.75rem 1.2rem;
+      border: 1px solid #111;
+      border-radius: 999px;
+      background: #111;
+      color: white;
+      font: inherit;
+      cursor: pointer;
+    }
 
-.popup-close {
-  margin-top: 2rem;
-  color: #777;
-  cursor: pointer;
-}
-.credits {
-  margin-top: 5rem;
-  padding-top: 2rem;
-  border-top: 1px solid #eee;
-  color: #777;
-  font-size: 0.85rem;
-  line-height: 1.7;
-}
-</style>
+    .access-request {
+      display: inline-block;
+      margin-top: 1.1rem;
+      color: #666;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+    .access-error {
+      min-height: 1.2rem;
+      margin-top: 0.7rem;
+      color: #b42318;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding: 3rem 1rem;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+      }
+
+      .controls {
+        grid-template-columns: 56px 1fr 56px;
+      }
+
+      .month-title {
+        font-size: 1.35rem;
+      }
+
+      .day-name,
+      .day {
+        padding: 0.35rem;
+      }
+
+      .day {
+        min-height: 82px;
+      }
+
+      .event {
+        font-size: 0.62rem;
+        padding: 0.18rem 0.28rem;
+      }
+
+      .summaries {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-<div class="container">
-  <a class="back" href="/">← Home</a>
 
-  <h1>Where's Io̍k-uí?</h1>
+  <div class="access-gate" id="accessGate">
+    <div class="access-card">
+      <h1>Where’s Io̍k-uí?</h1>
 
-  <div class="controls">
-    <button onclick="changeMonth(-1)">←</button>
-    <div class="month-title" id="monthTitle"></div>
-    <button onclick="changeMonth(1)">→</button>
+      <p>
+        This page is shared with selected collaborators.<br>
+        Enter an access key or request access.
+      </p>
+
+      <input
+        class="access-input"
+        id="accessKeyInput"
+        type="password"
+        placeholder="Access key"
+        autocomplete="off"
+      >
+
+      <button class="access-button" id="accessButton">
+        Enter
+      </button>
+
+      <div class="access-error" id="accessError"></div>
+
+      <a
+        class="access-request"
+        href="mailto:iok8ui2tiunn1@gmail.com?subject=Request%20access%20to%20Where%27s%20Io%CC%8Dk-u%C3%AD%3F"
+      >
+        Request access
+      </a>
+    </div>
   </div>
 
-  <div class="calendar" id="calendar"></div>
+  <div class="container">
+    <a class="back" href="/">← Home</a>
 
-  <section class="summaries">
-    <div class="summary">
-      <h2>Upcoming Conferences</h2>
-      <div id="conferenceSummary"></div>
+    <h1>Where's Io̍k-uí?</h1>
+
+    <div class="controls">
+      <button onclick="changeMonth(-1)">←</button>
+      <div class="month-title" id="monthTitle"></div>
+      <button onclick="changeMonth(1)">→</button>
     </div>
 
-    <div class="summary">
-      <h2>Upcoming Holidays</h2>
-      <div id="holidaySummary"></div>
+    <div class="calendar" id="calendar"></div>
+
+    <section class="summaries">
+      <div class="summary">
+        <h2>Upcoming Conferences</h2>
+        <div id="conferenceSummary"></div>
+      </div>
+
+      <div class="summary">
+        <h2>Upcoming Holidays</h2>
+        <div id="holidaySummary"></div>
+      </div>
+    </section>
+
+    <footer class="credits">
+      The idea behind “Where's Io̍k-uí?” was inspired by Prof. Giovanni Volpe's group organisation and visibility of activities, while the calendar structure and tidiness were inspired by Dr. Agnese Callegari's planning and management practices.
+    </footer>
+  </div>
+
+  <div class="popup" id="popup" onclick="closePopup()">
+    <div class="popup-card" onclick="event.stopPropagation()">
+      <div class="popup-title" id="popupTitle"></div>
+      <div class="popup-date" id="popupDate"></div>
+      <div class="popup-close" onclick="closePopup()">Close</div>
     </div>
-  </section>
-  <footer class="credits">
-    The idea behind “Where's Io̍k-uí?” was inspired by Prof. Giovanni Volpe's group organisation and visibility of activities, while the calendar structure and tidiness were inspired by Dr. Agnese Callegari's planning and management practices.
-  </footer>
-  
-</div>
+  </div>
 
-<script>
-let events = [];
-let currentDate = new Date();
+  <script>
+    const CURRENT_ACCESS_KEY = "iokui-calendar-7Qm9Vra2Kx";
 
-const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const accessGate = document.getElementById("accessGate");
+    const accessKeyInput = document.getElementById("accessKeyInput");
+    const accessButton = document.getElementById("accessButton");
+    const accessError = document.getElementById("accessError");
 
-function formatMonth(date) {
-  return date.toLocaleDateString("en-GB", {
-    month: "long",
-    year: "numeric"
-  });
-}
-
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
-}
-
-function dateToString(date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-}
-
-function subtractOneDay(dateString) {
-  const date = new Date(dateString);
-  date.setDate(date.getDate() - 1);
-  return dateToString(date);
-}
-
-function displayDateRange(event) {
-  const displayEnd = subtractOneDay(event.end);
-
-  if (event.start === displayEnd) {
-    return formatDate(event.start);
-  }
-
-  return `${formatDate(event.start)} – ${formatDate(displayEnd)}`;
-}
-
-function isEventOnDate(event, dateString) {
-  return event.start <= dateString && dateString < event.end;
-}
-
-function renderCalendar() {
-  const calendar = document.getElementById("calendar");
-  const monthTitle = document.getElementById("monthTitle");
-
-  calendar.innerHTML = "";
-  monthTitle.textContent = formatMonth(currentDate);
-
-  dayNames.forEach(day => {
-    const div = document.createElement("div");
-    div.className = "day-name";
-    div.textContent = day;
-    calendar.appendChild(div);
-  });
-
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-
-  let startOffset = firstDay.getDay();
-  if (startOffset < 0) startOffset = 6;
-
-  for (let i = 0; i < startOffset; i++) {
-    const empty = document.createElement("div");
-    empty.className = "day";
-    calendar.appendChild(empty);
-  }
-
-  for (let day = 1; day <= lastDay.getDate(); day++) {
-    const date = new Date(year, month, day);
-    const dateString = dateToString(date);
-
-    const cell = document.createElement("div");
-    cell.className = "day";
-
-    const today = dateToString(new Date());
-
-    if (dateString === today) {
-      cell.classList.add("today");
+    function grantAccess() {
+      accessGate.style.display = "none";
+      accessError.textContent = "";
     }
 
-    cell.innerHTML = `<div class="date">${day}</div>`;
+    function checkAccessKey(key) {
+      return key === CURRENT_ACCESS_KEY;
+    }
 
-    events
-      .filter(event => isEventOnDate(event, dateString))
-      .forEach(event => {
-        const eventDiv = document.createElement("div");
-        eventDiv.className = `event ${event.type || "other"}`;
+    function tryAccess(key) {
+      if (checkAccessKey(key)) {
+        grantAccess();
+        return;
+      }
+
+      accessError.textContent = "That access key is not valid.";
+      accessKeyInput.value = "";
+      accessKeyInput.focus();
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const keyFromUrl = urlParams.get("key");
+
+    if (keyFromUrl) {
+      tryAccess(keyFromUrl);
+    }
+
+    accessButton.addEventListener("click", () => {
+      tryAccess(accessKeyInput.value.trim());
+    });
+
+    accessKeyInput.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        tryAccess(accessKeyInput.value.trim());
+      }
+    });
+
+    let events = [];
+    let currentDate = new Date();
+
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    function formatMonth(date) {
+      return date.toLocaleDateString("en-GB", {
+        month: "long",
+        year: "numeric"
+      });
+    }
+
+    function formatDate(dateString) {
+      const [year, month, day] = dateString.split("-").map(Number);
+
+      return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      });
+    }
+
+    function dateToString(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
+    function subtractOneDay(dateString) {
+      const [year, month, day] = dateString.split("-").map(Number);
+      const date = new Date(year, month - 1, day);
+
+      date.setDate(date.getDate() - 1);
+
+      return dateToString(date);
+    }
+
+    function displayDateRange(event) {
+      const displayEnd = subtractOneDay(event.end);
+
+      if (event.start === displayEnd) {
+        return formatDate(event.start);
+      }
+
+      return `${formatDate(event.start)} – ${formatDate(displayEnd)}`;
+    }
+
+    function isEventOnDate(event, dateString) {
+      return event.start <= dateString && dateString < event.end;
+    }
+
+    function renderCalendar() {
+      const calendar = document.getElementById("calendar");
+      const monthTitle = document.getElementById("monthTitle");
+
+      calendar.innerHTML = "";
+      monthTitle.textContent = formatMonth(currentDate);
+
+      dayNames.forEach(day => {
+        const div = document.createElement("div");
+        div.className = "day-name";
+        div.textContent = day;
+        calendar.appendChild(div);
+      });
+
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+
+      const startOffset = firstDay.getDay();
+
+      for (let i = 0; i < startOffset; i++) {
+        const empty = document.createElement("div");
+        empty.className = "day";
+        calendar.appendChild(empty);
+      }
+
+      for (let day = 1; day <= lastDay.getDate(); day++) {
+        const date = new Date(year, month, day);
+        const dateString = dateToString(date);
+
+        const cell = document.createElement("div");
+        cell.className = "day";
 
         const today = dateToString(new Date());
 
-        if (dateString < today) {
-          eventDiv.classList.add("past");
+        if (dateString === today) {
+          cell.classList.add("today");
         }
 
-        eventDiv.textContent = event.title;
-        eventDiv.onclick = () => openPopup(event);
-        cell.appendChild(eventDiv);
+        cell.innerHTML = `<div class="date">${day}</div>`;
+
+        events
+          .filter(event => isEventOnDate(event, dateString))
+          .forEach(event => {
+            const eventDiv = document.createElement("div");
+            eventDiv.className = `event ${event.type || "other"}`;
+
+            if (dateString < today) {
+              eventDiv.classList.add("past");
+            }
+
+            eventDiv.textContent = event.title;
+            eventDiv.onclick = () => openPopup(event);
+
+            cell.appendChild(eventDiv);
+          });
+
+        calendar.appendChild(cell);
+      }
+    }
+
+    function renderSummary(type, elementId, emptyText) {
+      const container = document.getElementById(elementId);
+      const today = dateToString(new Date());
+
+      const futureEvents = events
+        .filter(event =>
+          event.end > today &&
+          event.type === type
+        )
+        .sort((a, b) => a.start.localeCompare(b.start));
+
+      container.innerHTML = "";
+
+      if (futureEvents.length === 0) {
+        container.innerHTML = `<div class="summary-date">${emptyText}</div>`;
+        return;
+      }
+
+      futureEvents.forEach(event => {
+        const div = document.createElement("div");
+        div.className = "summary-item";
+
+        div.innerHTML = `
+          <div class="dot ${event.type}"></div>
+          <div>
+            <div class="summary-title">${event.title}</div>
+            <div class="summary-date">${displayDateRange(event)}</div>
+          </div>
+        `;
+
+        container.appendChild(div);
       });
+    }
 
-    calendar.appendChild(cell);
-  }
-}
+    function changeMonth(step) {
+      currentDate.setMonth(currentDate.getMonth() + step);
+      renderCalendar();
+    }
 
-function renderSummary(type, elementId, emptyText) {
-  const container = document.getElementById(elementId);
-  const today = dateToString(new Date());
+    function openPopup(event) {
+      document.getElementById("popupTitle").textContent = event.title;
+      document.getElementById("popupDate").textContent = displayDateRange(event);
+      document.getElementById("popup").style.display = "flex";
+    }
 
-  const futureEvents = events
-    .filter(event =>
-      event.end >= today &&
-      event.type === type
-    )
-    .sort((a, b) => new Date(a.start) - new Date(b.start));
+    function closePopup() {
+      document.getElementById("popup").style.display = "none";
+    }
 
-  container.innerHTML = "";
+    let touchStartX = 0;
+    let touchEndX = 0;
 
-  if (futureEvents.length === 0) {
-    container.innerHTML = `<div class="summary-date">${emptyText}</div>`;
-    return;
-  }
+    const calendarElement = document.getElementById("calendar");
 
-  futureEvents.forEach(event => {
-    const div = document.createElement("div");
-    div.className = "summary-item";
+    calendarElement.addEventListener("touchstart", event => {
+      touchStartX = event.changedTouches[0].screenX;
+    });
 
-    div.innerHTML = `
-      <div class="dot ${event.type}"></div>
-      <div>
-        <div class="summary-title">${event.title}</div>
-        <div class="summary-date">${displayDateRange(event)}</div>
-      </div>
-    `;
+    calendarElement.addEventListener("touchend", event => {
+      touchEndX = event.changedTouches[0].screenX;
+      handleSwipe();
+    });
 
-    container.appendChild(div);
-  });
-}
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
 
-function changeMonth(step) {
-  currentDate.setMonth(currentDate.getMonth() + step);
-  renderCalendar();
-}
+      if (Math.abs(swipeDistance) < 50) {
+        return;
+      }
 
-function openPopup(event) {
-  document.getElementById("popupTitle").textContent = event.title;
-  document.getElementById("popupDate").textContent = displayDateRange(event);
-  document.getElementById("popup").style.display = "flex";
-}
+      if (swipeDistance > 0) {
+        changeMonth(-1);
+      } else {
+        changeMonth(1);
+      }
+    }
 
-function closePopup() {
-  document.getElementById("popup").style.display = "none";
-}
-let touchStartX = 0;
-let touchEndX = 0;
-
-const calendarElement = document.getElementById("calendar");
-
-calendarElement.addEventListener("touchstart", event => {
-  touchStartX = event.changedTouches[0].screenX;
-});
-
-calendarElement.addEventListener("touchend", event => {
-  touchEndX = event.changedTouches[0].screenX;
-  handleSwipe();
-});
-
-function handleSwipe() {
-  const swipeDistance = touchEndX - touchStartX;
-
-  if (Math.abs(swipeDistance) < 50) {
-    return;
-  }
-
-  if (swipeDistance > 0) {
-    changeMonth(-1); // swipe right → previous month
-  } else {
-    changeMonth(1);  // swipe left → next month
-  }
-}
-
-fetch("/content/calendar.json")
-  .then(response => response.json())
-  .then(data => {
-    events = data;
-    renderCalendar();
-    renderSummary("conference", "conferenceSummary", "No upcoming conferences.");
-    renderSummary("holiday", "holidaySummary", "No upcoming holidays.");
-  });
-</script>
-<div class="popup" id="popup" onclick="closePopup()">
-  <div class="popup-card" onclick="event.stopPropagation()">
-    <div class="popup-title" id="popupTitle"></div>
-    <div class="popup-date" id="popupDate"></div>
-    <div class="popup-close" onclick="closePopup()">Close</div>
-  </div>
-</div>
+    fetch("/content/calendar.json")
+      .then(response => response.json())
+      .then(data => {
+        events = data;
+        renderCalendar();
+        renderSummary("conference", "conferenceSummary", "No upcoming conferences.");
+        renderSummary("holiday", "holidaySummary", "No upcoming holidays.");
+      })
+      .catch(() => {
+        document.getElementById("calendar").innerHTML =
+          `<div style="padding: 1rem; color: #777;">Unable to load calendar data.</div>`;
+      });
+  </script>
 </body>
 </html>
